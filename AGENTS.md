@@ -6,9 +6,11 @@ This is the MIT web app for OpenBot. Keep it a Vite single-page app with React
 Router, shadcn/ui, and Effect Atom. Use shadcn/ui components first.
 
 Import OpenBot through `@openbot-build/client`, including its `/Api` and `/Core`
-entries. Change the client in the OpenBot repository first, then run
-`scripts/update-client.sh`. Keep the shared schemas in their current packages;
-the client bundles them at build time.
+entries. Install it from GitHub Packages. Use `pnpm client:update <version>`
+for a release or `pnpm client:update sha-<full-hash>` for a commit. Change the
+client in the OpenBot repository first and publish it before updating this app.
+The client bundles its shared schemas and types. The UI package ships `dist`
+as static files for OpenBot Cloud.
 
 ## Design
 
