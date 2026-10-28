@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="dark light" />
+		<link rel="icon" href="/favicon.ico" />
+		<link rel="manifest" href="/manifest.json" />
+		<title>OpenBot</title>
+		<script>
+			// Set the theme before the page paints, so a dark page does not flash white.
+			;(() => {
+				try {
+					const theme = localStorage.getItem("openbot.theme") || "dark"
+					const dark =
+						theme === "dark" ||
+						(theme === "system" &&
+							matchMedia("(prefers-color-scheme: dark)").matches)
+					document.documentElement.classList.toggle("dark", dark)
+					document.documentElement.style.colorScheme = dark ? "dark" : "light"
+				} catch {
+					document.documentElement.classList.add("dark")
+				}
+			})()
+		</script>
+	</head>
+	<body>
+		<div id="root"></div>
+		<script type="module" src="/src/main.tsx"></script>
+	</body>
+</html>
