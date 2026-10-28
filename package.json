@@ -14,8 +14,8 @@
 	},
 	"dependencies": {
 		"@base-ui/react": "1.9.0",
-		"@effect/atom-react": "4.0.6",
-		"@effect/platform-browser": "4.0.6",
+		"@effect/atom-react": "4.0.7",
+		"@effect/platform-browser": "4.0.7",
 		"@fontsource-variable/dm-sans": "5.3.0",
 		"@fontsource/dm-mono": "5.3.0",
 		"@openbot-build/client": "file:vendor/openbot-build-client-0.1.0.tgz",
@@ -23,7 +23,7 @@
 		"class-variance-authority": "0.7.1",
 		"cmdk": "1.1.1",
 		"cn": "0.4.0",
-		"effect": "4.0.6",
+		"effect": "4.0.7",
 		"lucide-react": "1.61.0",
 		"react": "19.3.1",
 		"react-dom": "19.3.1",
@@ -50,10 +50,5 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/openbot-build/openbot-ui.git"
-	},
-	"pnpm": {
-		"patchedDependencies": {
-			"effect@4.0.6": "patches/effect@4.0.6.patch"
-		}
 	}
 }
