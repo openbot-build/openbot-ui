@@ -14,6 +14,9 @@ as static files for OpenBot Cloud.
 
 ## Design
 
+This section is the single source for OpenBot web design rules. Change the
+rules here. Other repositories link to this section.
+
 - The web front end has no shadows and no borders. Do not use `shadow-*`, `drop-shadow-*`, `border-*`, or `ring-1` as an outline. The theme in `src/styles.css` removes the shadow utilities.
 - Make things stand apart with fill color (`bg-card`, `bg-muted`, `bg-input`, `bg-popover`) and space. Dividers are space, not lines.
 - The only ring is the focus ring for the keyboard (`focus-visible:ring-*`) and the error ring (`aria-invalid:ring-*`).
@@ -23,7 +26,6 @@ as static files for OpenBot Cloud.
 - A `rounded-screen` box must be at least 131px high and wide, or the browser makes its corners smaller. Give a box that can be shorter `rounded-full`, or the least size `min-h-(--corner-room)`.
 - Corners must look in harmony. A round control in a `rounded-screen` corner is concentric with it: a 36px control sits `p-(--corner-inset)` (37px) from both edges. So the buttons in the corners of a dialog or a RequestCard are 36px high, and a title next to such a button is centered on it. A box inside another box gets about the outer corner minus the space between them. Keep padding at least 0.3 × the corner, so text does not run into the curve.
 - The fonts are DM Sans (`font-sans`, also for headings) and DM Mono (`font-mono`).
-- Keep the design in sync with OpenBot Cloud.
 
 ## Language
 
