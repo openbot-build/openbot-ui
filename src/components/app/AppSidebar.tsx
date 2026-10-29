@@ -311,6 +311,17 @@ function AccountMenu() {
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
+							{account?.platformAdmin && (
+								<DropdownMenuItem render={<NavLink to="/admin" />}>
+									Platform administration
+								</DropdownMenuItem>
+							)}
+							<DropdownMenuItem render={<NavLink to="/organization" />}>
+								Organization settings
+							</DropdownMenuItem>
+							<DropdownMenuItem render={<NavLink to="/invitations" />}>
+								Your invitations
+							</DropdownMenuItem>
 							<DropdownMenuLabel>Theme</DropdownMenuLabel>
 							<DropdownMenuRadioGroup
 								value={theme}
