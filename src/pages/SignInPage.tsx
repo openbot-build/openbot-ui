@@ -44,7 +44,7 @@ export function SignInPage() {
 						? "Access was not granted. Check your invitation or contact an administrator."
 						: options._tag === "Success" &&
 							  options.value.selfService === "closed"
-							? "Sign in with an existing account or use access granted by an administrator. Open registration is closed."
+							? "Sign in with an existing account, a valid invitation, or access granted by an administrator. Open registration is closed."
 							: null
 	const signIn = useAtomSet(signInAtom, { mode: "promise" })
 	const [email, setEmail] = useState("")
@@ -117,7 +117,7 @@ export function SignInPage() {
 								/>
 								<FieldDescription>
 									{emailReady
-										? "We send a code to this email. New accounts need permission from your administrator."
+										? "We send a sign-in code to this email."
 										: "Your organization may use its own sign-in. We find it from your email."}
 								</FieldDescription>
 							</Field>
