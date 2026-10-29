@@ -13,7 +13,7 @@ import {
 	connectionsAtom,
 	rolesAtom,
 	orgActionAtom,
-	pageAtom,
+	orgPageAtom as pageAtom,
 } from "@/atoms/access"
 import { accountAtom } from "@/atoms/account"
 import { Button } from "@/components/ui/button"

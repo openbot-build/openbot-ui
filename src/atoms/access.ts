@@ -20,6 +20,7 @@ const pageQuery = (after: string | undefined) => ({
 	...(after === undefined ? {} : { after }),
 })
 export const pageAtom = Atom.make<string | undefined>(undefined)
+export const orgPageAtom = Atom.make<string | undefined>(undefined)
 export const usersAtom = apiRuntime
 	.atom((get) =>
 		Effect.flatMap(Api, (c) =>
@@ -107,7 +108,7 @@ export const answerInviteAtom = apiRuntime.fn(
 export const membersAtom = apiRuntime
 	.atom((get) =>
 		Effect.flatMap(Api, (c) =>
-			c.api.organization.listMembers({ query: pageQuery(get(pageAtom)) }),
+			c.api.organization.listMembers({ query: pageQuery(get(orgPageAtom)) }),
 		),
 	)
 	.pipe(Atom.withReactivity([accessKey]))
