@@ -6,7 +6,7 @@ It uses Vite, React Router, shadcn/ui, and Effect Atom.
 Install `@openbot-build/client` from GitHub Packages. This repository publishes
 `@openbot-build/web` with its static build in `dist`.
 
-See the [package setup and release guide](https://openbot.build/docs/contributing#package-releases)
+See the [package setup and release guide](https://docs.openbot.build/contributing#package-releases)
 for registry access, first installation, version tags, and commit versions.
 Use `devenv shell -- bash scripts/install.sh`, then `devenv shell -- pnpm dev`.
 The dev server sends API calls to `OPENBOT_DEV_PUBLIC_ORIGIN` (default `http://localhost`).
