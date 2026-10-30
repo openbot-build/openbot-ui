@@ -56,7 +56,7 @@ export function FilePreview({
 	return (
 		<span
 			className={cn(
-				"flex max-w-64 items-center gap-2 rounded-lg bg-muted px-3 py-2 text-sm",
+				"flex max-w-64 items-center gap-2 rounded-lg bg-muted px-3 py-2 text-body-medium",
 				className,
 			)}
 		>
@@ -95,7 +95,7 @@ export function DraftFiles({
 					key={draft.key}
 					title={draft.error ?? draft.name}
 					className={cn(
-						"group/draft relative flex h-16 max-w-56 items-center gap-2 overflow-hidden rounded-lg bg-background",
+						"group/draft relative flex h-16 max-w-56 items-center gap-2 overflow-hidden rounded-draft bg-background",
 						draft.preview === undefined ? "pr-9 pl-3" : "w-16",
 						draft.status === "failed" && "text-destructive",
 					)}
@@ -113,7 +113,7 @@ export function DraftFiles({
 							) : (
 								<FileIcon className="size-4 shrink-0 text-muted-foreground" />
 							)}
-							<span className="truncate text-sm font-normal text-foreground">
+							<span className="truncate text-body-medium font-normal text-foreground">
 								{draft.name}
 							</span>
 						</>
@@ -133,7 +133,7 @@ export function DraftFiles({
 						size="icon-xs"
 						aria-label={`Take out ${draft.name}`}
 						onClick={() => onRemove(draft.key)}
-						className="absolute top-1.5 right-1.5 rounded-full opacity-100 transition-opacity md:opacity-0 md:group-hover/draft:opacity-100 md:focus-visible:opacity-100"
+						className="absolute top-1 right-1 size-6 rounded-full opacity-100 transition-opacity md:opacity-0 md:group-hover/draft:opacity-100 md:focus-visible:opacity-100"
 					>
 						<XIcon />
 					</Button>

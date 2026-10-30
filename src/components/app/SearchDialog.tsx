@@ -1,6 +1,6 @@
 import { useAtom, useAtomSet, useAtomValue } from "@effect/atom-react"
 import {
-	BotIcon,
+	SlidersHorizontalIcon,
 	HistoryIcon,
 	MessageSquareIcon,
 	SettingsIcon,
@@ -40,12 +40,11 @@ export function SearchDialog() {
 			open={open}
 			onOpenChange={setOpen}
 			title="Search"
-			description="Find a chat or a page"
-			className="sm:max-w-xl"
+			description="Find a Bot, chat, or page"
 		>
 			<Command>
-				<CommandInput placeholder="Search chats and pages" />
-				<CommandList className="max-h-[60vh]">
+				<CommandInput placeholder="Search Bots, chats, and pages" />
+				<CommandList>
 					<CommandEmpty>Nothing found.</CommandEmpty>
 					<CommandGroup heading="Actions">
 						<CommandItem onSelect={() => go("/")}>
@@ -53,7 +52,7 @@ export function SearchDialog() {
 							<CommandShortcut>{modKey()} ⇧ O</CommandShortcut>
 						</CommandItem>
 						<CommandItem onSelect={() => go("/bots")}>
-							<BotIcon /> Bots
+							<SlidersHorizontalIcon /> Manage Bots
 						</CommandItem>
 						<CommandItem onSelect={() => go("/requests")}>
 							<ShieldCheckIcon /> Requests
@@ -70,6 +69,12 @@ export function SearchDialog() {
 							<SettingsIcon /> Settings
 						</CommandItem>
 					</CommandGroup>
+                    <CommandGroup heading="Bots">
+                      {bots.map(bot => <CommandItem key={bot.id} value={`bot ${bot.name} ${bot.id}`} onSelect={() => {
+                        const direct = chats.find(item => item.chat.kind === "direct" && item.chat.bot === bot.id)
+                        go(direct ? `/c/${direct.chat.id}` : `/?bot=${encodeURIComponent(bot.id)}`)
+                      }}>{bot.name}</CommandItem>)}
+                    </CommandGroup>
 					{chats.length > 0 ? (
 						<>
 							<CommandSeparator />

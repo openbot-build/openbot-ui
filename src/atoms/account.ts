@@ -15,12 +15,14 @@ export const signInAtom = apiRuntime.fn(
 	Effect.fnUntraced(function* (input: {
 		readonly email?: string
 		readonly returnTo?: string
+        readonly invitation?: string
 	}) {
 		const client = yield* Api
 		const start = yield* client.api.signIn.signIn({
 			payload: {
 				...(input.email ? { email: input.email } : {}),
 				...(input.returnTo ? { returnTo: input.returnTo } : {}),
+                ...(input.invitation ? { invitation: input.invitation } : {}),
 			},
 		})
 		yield* Effect.sync(() => globalThis.location.assign(start.url))

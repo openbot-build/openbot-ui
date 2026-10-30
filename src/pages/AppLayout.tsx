@@ -1,3 +1,4 @@
+import { InvitationList } from "./InvitationsPage"
 import {
 	useAtom,
 	useAtomRefresh,
@@ -7,7 +8,7 @@ import {
 import { Cause } from "effect"
 import { Building2Icon } from "lucide-react"
 import { useEffect, useState } from "react"
-import { Navigate, Outlet, useLocation } from "react-router"
+import { Link, Navigate, Outlet, useLocation } from "react-router"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import {
@@ -91,9 +92,9 @@ export function AppLayout() {
 	if (chosen === undefined) return <FullPageSpinner />
 
 	return (
-		<SidebarProvider defaultOpen={sidebarOpen()}>
+		<SidebarProvider defaultOpen={sidebarOpen()} className="app-shell" style={{ "--sidebar-width": "18rem" } as React.CSSProperties}>
 			<AppSidebar />
-			<SidebarInset className="h-svh min-w-0 overflow-hidden">
+			<SidebarInset className="app-canvas min-w-0 overflow-hidden">
 				<Outlet />
 			</SidebarInset>
 			<SearchDialog />
@@ -112,6 +113,9 @@ function FullPageSpinner() {
 }
 
 function NoOrganization() {
+ const account = useAtomValue(accountAtom)
+ const canCreate = account._tag === "Success" && account.value.canCreateOrganization
+ const admin = account._tag === "Success" && account.value.platformAdmin
 	const create = useAtomSet(createOrganizationAtom, { mode: "promise" })
 	const refresh = useAtomRefresh(accountAtom)
 	const [name, setName] = useState("")
@@ -122,14 +126,13 @@ function NoOrganization() {
 				<EmptyMedia variant="icon">
 					<Building2Icon />
 				</EmptyMedia>
-				<EmptyTitle>Make your organization</EmptyTitle>
+				<EmptyTitle>Your organization access</EmptyTitle>
 				<EmptyDescription>
-					Your account is not in an organization yet. Make one to start. You can
-					invite other people later.
+					Your account is not in an organization yet. Accept an invitation or contact your administrator.
 				</EmptyDescription>
 			</EmptyHeader>
 			<EmptyContent>
-				<form
+				{canCreate && <form
 					className="flex w-full max-w-sm gap-2"
 					onSubmit={(event) => {
 						event.preventDefault()
@@ -151,7 +154,9 @@ function NoOrganization() {
 					<Button type="submit" disabled={busy || name.trim().length === 0}>
 						{busy ? <Spinner /> : null} Create
 					</Button>
-				</form>
+				</form>}
+                <InvitationList />
+                {admin && <Link to="/admin">Platform administration</Link>}
 			</EmptyContent>
 		</Empty>
 	)

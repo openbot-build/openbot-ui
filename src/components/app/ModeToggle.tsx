@@ -27,7 +27,7 @@ export function ModeToggle({
 						pressed={mode === "plan"}
 						disabled={disabled}
 						onPressedChange={(pressed) => onChange(pressed ? "plan" : "build")}
-						className="h-9 rounded-full px-3.5 text-sm aria-pressed:bg-sky-500/15 aria-pressed:text-sky-600 dark:aria-pressed:text-sky-300"
+						className="h-9 rounded-full px-3.5 text-body-medium aria-pressed:bg-sky-500/15 aria-pressed:text-sky-600 dark:aria-pressed:text-sky-300"
 					/>
 				}
 			>

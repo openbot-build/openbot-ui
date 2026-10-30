@@ -56,14 +56,14 @@ export function ModelPicker({
 					<Button
 						variant="ghost"
 						size="lg"
-						className="h-9 max-w-56 rounded-full px-3 text-sm text-muted-foreground"
+						className="h-9 max-w-56 rounded-full px-3 text-body-medium text-muted-foreground"
 					/>
 				}
 			>
 				<SparklesIcon className="size-4 shrink-0" />
 				<span className="truncate">{current?.name ?? "Default"}</span>
 				{value?.reasoningEffort ? (
-					<span className="text-xs text-muted-foreground capitalize">
+					<span className="text-body-small text-muted-foreground capitalize">
 						· {value.reasoningEffort}
 					</span>
 				) : null}
@@ -83,9 +83,9 @@ export function ModelPicker({
 									className="py-2"
 								>
 									<span className="flex min-w-0 flex-1 flex-col">
-										<span className="truncate text-sm">{model.name}</span>
+										<span className="truncate text-body-medium">{model.name}</span>
 										{model.contextWindow ? (
-											<span className="text-[0.7rem] text-muted-foreground">
+											<span className="text-body-small text-muted-foreground">
 												{Math.round(model.contextWindow / 1000)}k context
 											</span>
 										) : null}

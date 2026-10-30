@@ -1,12 +1,12 @@
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
+import { cn } from "@/lib/cn"
 
 function Empty({ className, ...props }: React.ComponentProps<"div">) {
 	return (
 		<div
 			data-slot="empty"
 			className={cn(
-				"flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-4 rounded-screen p-6 text-center text-balance",
+				"flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-4 rounded-panel nested-controls p-6 text-center text-balance",
 				className,
 			)}
 			{...props}
@@ -59,7 +59,7 @@ function EmptyTitle({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="empty-title"
 			className={cn(
-				"font-heading text-sm font-medium tracking-tight",
+				"font-heading text-title-large",
 				className,
 			)}
 			{...props}
@@ -72,7 +72,7 @@ function EmptyDescription({ className, ...props }: React.ComponentProps<"p">) {
 		<div
 			data-slot="empty-description"
 			className={cn(
-				"text-xs/relaxed text-muted-foreground [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary",
+				"text-body-medium text-muted-foreground [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary",
 				className,
 			)}
 			{...props}
@@ -85,7 +85,7 @@ function EmptyContent({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="empty-content"
 			className={cn(
-				"flex w-full max-w-sm min-w-0 flex-col items-center gap-2 text-xs/relaxed text-balance",
+				"flex w-full max-w-sm min-w-0 flex-col items-center gap-2 text-body-medium text-balance",
 				className,
 			)}
 			{...props}

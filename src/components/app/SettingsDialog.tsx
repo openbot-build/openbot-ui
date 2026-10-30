@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
 	Dialog,
+	DialogBody,
 	DialogContent,
 	DialogDescription,
 	DialogHeader,
@@ -23,6 +24,7 @@ import {
 	FieldDescription,
 	FieldGroup,
 	FieldLabel,
+	FieldLegend,
 	FieldSet,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
@@ -67,31 +69,34 @@ export function SettingsDialog() {
 				if (!open) setTab(undefined)
 			}}
 		>
-			<DialogContent className="max-h-[85svh] overflow-y-auto sm:max-w-2xl">
+			<DialogContent>
 				<DialogHeader>
-					<DialogTitle className="text-base">Settings</DialogTitle>
+					<DialogTitle>Settings</DialogTitle>
 					<DialogDescription className="sr-only">
 						Change how OpenBot looks and works for you
 					</DialogDescription>
 				</DialogHeader>
 				<Tabs
+					className="min-h-0 flex-1"
 					value={tab ?? "general"}
 					onValueChange={(value) => setTab(value as SettingsTab)}
 				>
-					<TabsList>
+					<TabsList className="shrink-0">
 						<TabsTrigger value="general">General</TabsTrigger>
 						<TabsTrigger value="account">Account</TabsTrigger>
 						<TabsTrigger value="tokens">API tokens</TabsTrigger>
 					</TabsList>
-					<TabsContent value="general" className="pt-4">
-						<GeneralSettings />
-					</TabsContent>
-					<TabsContent value="account" className="pt-4">
-						<AccountSettings />
-					</TabsContent>
-					<TabsContent value="tokens" className="pt-4">
-						<TokenSettings />
-					</TabsContent>
+					<DialogBody key={tab}>
+						<TabsContent value="general" className="pt-4">
+							<GeneralSettings />
+						</TabsContent>
+						<TabsContent value="account" className="pt-4">
+							<AccountSettings />
+						</TabsContent>
+						<TabsContent value="tokens" className="pt-4">
+							<TokenSettings />
+						</TabsContent>
+					</DialogBody>
 				</Tabs>
 			</DialogContent>
 		</Dialog>
@@ -102,7 +107,7 @@ const themes: ReadonlyArray<{ readonly value: Theme; readonly label: string }> =
 	[
 		{ value: "dark", label: "Dark" },
 		{ value: "light", label: "Light" },
-		{ value: "system", label: "Like my system" },
+		{ value: "system", label: "System" },
 	]
 
 function GeneralSettings() {
@@ -113,28 +118,29 @@ function GeneralSettings() {
 		account?.memberships.filter((item) => item.status === "active") ?? []
 	return (
 		<FieldGroup>
-			<Field orientation="horizontal">
-				<FieldLabel>Theme</FieldLabel>
-				<Select
-					items={themes}
-					value={theme}
-					onValueChange={(value) => value && setTheme(value as Theme)}
-				>
-					<SelectTrigger className="w-48">
-						<SelectValue />
-					</SelectTrigger>
-					<SelectContent>
-						{themes.map((item) => (
-							<SelectItem key={item.value} value={item.value}>
+			<FieldSet className="gap-3">
+				<FieldLegend variant="label">Theme</FieldLegend>
+				<div className="grid grid-cols-3 rounded-lg bg-input p-1 [corner-shape:round]">
+					{themes.map((item) => (
+						<label key={item.value} className="min-w-0 cursor-pointer">
+							<input
+								type="radio"
+								name="theme"
+								value={item.value}
+								checked={theme === item.value}
+								onChange={() => setTheme(item.value)}
+								className="peer sr-only"
+							/>
+							<span className="flex min-h-11 items-center justify-center rounded-control px-3 text-label-large text-muted-foreground transition-colors hover:text-foreground peer-checked:bg-background peer-checked:text-foreground peer-focus-visible:ring-2 peer-focus-visible:ring-ring">
 								{item.label}
-							</SelectItem>
-						))}
-					</SelectContent>
-				</Select>
-			</Field>
+							</span>
+						</label>
+					))}
+				</div>
+			</FieldSet>
 			{organizations.length > 1 ? (
 				<Field orientation="horizontal">
-					<FieldLabel>Organization</FieldLabel>
+					<FieldLabel htmlFor="settings-organization">Organization</FieldLabel>
 					<Select
 						items={organizations.map((item) => ({
 							value: item.organizationId,
@@ -143,7 +149,7 @@ function GeneralSettings() {
 						value={organization}
 						onValueChange={(value) => value && setOrganization(value)}
 					>
-						<SelectTrigger className="w-48">
+						<SelectTrigger id="settings-organization" className="w-48 max-w-full">
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent>
@@ -152,7 +158,7 @@ function GeneralSettings() {
 									key={item.organizationId}
 									value={item.organizationId}
 								>
-									{item.name}
+									{item.kind === "personal" ? "Personal space" : item.name}
 								</SelectItem>
 							))}
 						</SelectContent>
@@ -251,11 +257,12 @@ function TokenSettings() {
 			{secret ? (
 				<Field>
 					<FieldLabel>Copy your token now</FieldLabel>
-					<InputGroup>
+					<InputGroup className="h-11 rounded-full">
 						<InputGroupInput value={secret} readOnly className="font-mono" />
-						<InputGroupAddon align="inline-end">
+						<InputGroupAddon align="inline-end" className="pr-2 has-[>button]:mr-0">
 							<InputGroupButton
 								size="icon-xs"
+								className="size-7 rounded-full"
 								aria-label="Copy"
 								onClick={() => copy(secret)}
 							>
@@ -271,7 +278,7 @@ function TokenSettings() {
 
 			{tokens === undefined ? (
 				result._tag === "Failure" ? (
-					<p className="text-xs text-muted-foreground">
+					<p className="text-body-small text-muted-foreground">
 						{errorMessage(result.cause)}
 					</p>
 				) : (

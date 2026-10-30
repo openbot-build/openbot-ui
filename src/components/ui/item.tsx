@@ -2,7 +2,7 @@ import * as React from "react"
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
+import { cn } from "@/lib/cn"
 
 import { Separator } from "@/components/ui/separator"
 
@@ -12,7 +12,7 @@ function ItemGroup({ className, ...props }: React.ComponentProps<"div">) {
 			role="list"
 			data-slot="item-group"
 			className={cn(
-				"group/item-group flex w-full flex-col gap-4 has-data-[size=sm]:gap-2.5 has-data-[size=xs]:gap-2",
+				"group/item-group flex w-full flex-col rounded-group gap-4 has-data-[size=sm]:gap-2.5 has-data-[size=xs]:gap-2",
 				className,
 			)}
 			{...props}
@@ -35,7 +35,7 @@ function ItemSeparator({
 }
 
 const itemVariants = cva(
-	"group/item flex w-full flex-wrap items-center rounded-2xl text-xs/relaxed transition-colors duration-100 outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 [a]:transition-colors [a]:hover:bg-muted",
+	"group/item flex w-full flex-wrap items-center rounded-row nested-controls text-body-medium transition-colors duration-100 outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 [a]:transition-colors [a]:hover:bg-muted",
 	{
 		variants: {
 			variant: {
@@ -44,9 +44,9 @@ const itemVariants = cva(
 				muted: "bg-muted/50",
 			},
 			size: {
-				default: "gap-2.5 px-3 py-2.5",
-				sm: "gap-2.5 px-3 py-2.5",
-				xs: "gap-2.5 px-2.5 py-2 in-data-[slot=dropdown-menu-content]:p-0",
+				default: "gap-2.5 p-(--row-inset)",
+				sm: "gap-2.5 p-(--row-inset)",
+				xs: "gap-2.5 p-(--row-inset) in-data-[slot=dropdown-menu-content]:p-0",
 			},
 		},
 		defaultVariants: {
@@ -130,7 +130,7 @@ function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="item-title"
 			className={cn(
-				"line-clamp-1 flex w-fit items-center gap-2 text-xs/relaxed leading-snug font-medium underline-offset-4",
+				"line-clamp-1 flex w-fit items-center gap-2 text-title-small underline-offset-4",
 				className,
 			)}
 			{...props}
@@ -143,7 +143,7 @@ function ItemDescription({ className, ...props }: React.ComponentProps<"p">) {
 		<p
 			data-slot="item-description"
 			className={cn(
-				"line-clamp-2 text-left text-xs/relaxed font-normal text-muted-foreground [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary",
+				"line-clamp-2 text-left text-body-medium font-normal text-muted-foreground [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary",
 				className,
 			)}
 			{...props}
@@ -155,7 +155,7 @@ function ItemActions({ className, ...props }: React.ComponentProps<"div">) {
 	return (
 		<div
 			data-slot="item-actions"
-			className={cn("flex items-center gap-2", className)}
+			className={cn("flex self-end items-center gap-2", className)}
 			{...props}
 		/>
 	)

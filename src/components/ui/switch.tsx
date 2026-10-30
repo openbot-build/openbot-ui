@@ -1,7 +1,7 @@
 "use client"
 
 import { Switch as SwitchPrimitive } from "@base-ui/react/switch"
-import { cn } from "cn"
+import { cn } from "@/lib/cn"
 
 function Switch({
 	className,
@@ -15,7 +15,7 @@ function Switch({
 			data-slot="switch"
 			data-size={size}
 			className={cn(
-				"peer group/switch relative inline-flex shrink-0 items-center rounded-full px-px transition-all outline-none group-has-[:focus-visible]/field-label:ring-0 after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-2 focus-visible:ring-ring/30 aria-invalid:ring-2 aria-invalid:ring-destructive/20 data-[size=default]:h-[16.6px] data-[size=default]:w-[28px] data-[size=sm]:h-[14px] data-[size=sm]:w-[24px] dark:aria-invalid:ring-destructive/40 data-checked:bg-primary data-unchecked:bg-foreground/15 dark:data-unchecked:bg-foreground/20 data-disabled:cursor-not-allowed data-disabled:opacity-50",
+				"peer group/switch relative inline-flex shrink-0 items-center rounded-full px-px transition-all outline-none group-has-[:focus-visible]/field-label:ring-0 after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-2 focus-visible:ring-ring/30 aria-invalid:ring-2 aria-invalid:ring-destructive/20 data-[size=default]:h-4 data-[size=default]:w-[28px] data-[size=sm]:h-[14px] data-[size=sm]:w-[24px] dark:aria-invalid:ring-destructive/40 data-checked:bg-primary data-unchecked:bg-foreground/15 dark:data-unchecked:bg-foreground/20 data-disabled:cursor-not-allowed data-disabled:opacity-50",
 				className,
 			)}
 			{...props}

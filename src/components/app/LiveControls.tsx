@@ -22,7 +22,7 @@ const talkLabel = (state: TalkState) => {
 /**
  * The controls of a Live talk, in the lower row of the composer: start the
  * talk, or mute the microphone and end the talk. All are pills, so they sit
- * concentric in the corner of the composer.
+ * aligned with the other composer controls.
  */
 export function LiveControls({
 	state,
@@ -44,7 +44,7 @@ export function LiveControls({
 				size="lg"
 				disabled={disabled}
 				onClick={onStart}
-				className="h-9 rounded-full px-4 text-sm"
+				className="h-9 rounded-full px-4 text-body-medium"
 			>
 				<MicIcon /> Start talking
 			</Button>
@@ -76,13 +76,13 @@ export function LiveControls({
 				variant="destructive"
 				size="lg"
 				onClick={onEnd}
-				className="h-9 rounded-full px-4 text-sm"
+				className="h-9 rounded-full px-4 text-body-medium"
 			>
 				<PhoneOffIcon /> End
 			</Button>
 			<span
 				role="status"
-				className="ml-2 flex items-center gap-2 text-sm text-muted-foreground"
+				className="ml-2 flex items-center gap-2 text-body-medium text-muted-foreground"
 			>
 				{open ? (
 					<span

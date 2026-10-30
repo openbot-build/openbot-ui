@@ -25,11 +25,7 @@ export function RequestsPage() {
 			<PageHeader title="Requests" />
 			<div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-6">
 				<div className="flex flex-col gap-1">
-					<h1 className="text-2xl font-semibold tracking-tight">Requests</h1>
-					<p className="text-sm text-muted-foreground">
-						Bots ask here before they do something new. Your answer can last
-						once, for one chat, or always.
-					</p>
+					<h1 className="text-headline-small">Requests</h1>
 				</div>
 				<Tabs defaultValue="pending">
 					<TabsList>
@@ -62,13 +58,13 @@ function RequestList({
 	const requests = resultValue(result)
 	if (requests === undefined)
 		return result._tag === "Failure" ? (
-			<p className="text-sm text-muted-foreground">
+			<p className="text-body-medium text-muted-foreground">
 				{errorMessage(result.cause)}
 			</p>
 		) : (
 			<div className="flex flex-col gap-2">
 				{[0, 1].map((index) => (
-					<Skeleton key={index} className="h-36 w-full rounded-screen" />
+					<Skeleton key={index} className="h-36 w-full rounded-surface" />
 				))}
 			</div>
 		)

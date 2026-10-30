@@ -31,7 +31,7 @@ function FencedCode({
 					<CodeBlockCopyButton value={code} />
 				</CodeBlockActions>
 			</CodeBlockHeader>
-			<CodeBlockContent className="text-[0.82rem]">
+			<CodeBlockContent className="text-body-medium">
 				{lines.map((line, index) => (
 					<CodeBlockLine key={index}>{line}</CodeBlockLine>
 				))}

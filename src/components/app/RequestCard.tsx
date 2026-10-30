@@ -112,41 +112,37 @@ export function RequestCard({
 			.finally(() => setBusy(false))
 	}
 
-	// A decided request with nothing but its title is one line, too short for
-	// the screen corner, so it is a pill.
+	// A decided request with only a title uses less space.
 	const oneLine =
 		!pending && !showChat && !request.reason && !request.capability.arguments
 
-	// The card keeps the padding of the screen corner, and the buttons sit in
-	// one row at its foot. The last button is 36px high, so it is concentric
-	// with the lower right corner, as the Send button of the Composer is.
 	return (
 		<Item
 			variant="outline"
 			className={cn(
 				"items-start gap-x-3 gap-y-5 bg-card",
 				oneLine
-					? "rounded-full px-3.5 py-3"
-					: "min-h-(--corner-room) content-center rounded-screen p-(--corner-inset)",
+					? "rounded-lg px-4 py-3"
+					: "content-center rounded-panel nested-controls p-(--surface-inset)",
 			)}
 		>
 			<ItemMedia variant="icon" className="mt-0.5">
 				<ShieldAlertIcon className={pending ? "text-amber-500" : undefined} />
 			</ItemMedia>
 			<ItemContent className="min-w-0 gap-1">
-				<ItemTitle className="text-sm">
+				<ItemTitle className="text-body-medium">
 					{describeRequest(request)}
 					{pending ? null : (
 						<Badge variant="secondary">{statusLabel[request.status]}</Badge>
 					)}
 				</ItemTitle>
 				{request.reason ? (
-					<ItemDescription className="line-clamp-none text-sm">
+					<ItemDescription className="line-clamp-none text-body-medium">
 						{request.reason}
 					</ItemDescription>
 				) : null}
 				{request.capability.arguments ? (
-					<pre className="mt-2 max-h-40 overflow-auto rounded-xl bg-muted/50 p-3 font-mono text-xs text-muted-foreground">
+					<pre className="mt-2 max-h-40 overflow-auto rounded-control bg-muted/50 p-3 font-mono text-body-small text-muted-foreground">
 						{showValue(request.capability.arguments)}
 					</pre>
 				) : null}
@@ -154,7 +150,7 @@ export function RequestCard({
 			{pending || showChat ? (
 				<ItemFooter className="gap-3">
 					{showChat ? (
-						<div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+						<div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 text-body-small text-muted-foreground">
 							<span>{new Date(request.createdAt).toLocaleString()}</span>
 							<Link
 								to={`/c/${request.chat}`}

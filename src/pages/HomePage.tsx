@@ -1,79 +1,25 @@
-import { useAtomSet, useAtomValue } from "@effect/atom-react"
-import {
-	BotIcon,
-	CalendarClockIcon,
-	ChevronDownIcon,
-	CodeIcon,
-	FileSearchIcon,
-	LightbulbIcon,
-	MicIcon,
-	PlusIcon,
-} from "lucide-react"
+import { useAtomRefresh, useAtomSet, useAtomValue } from "@effect/atom-react"
+import { MicIcon, PlusIcon } from "lucide-react"
 import { useState } from "react"
 import { Link, useNavigate, useSearchParams } from "react-router"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipTrigger,
-} from "@/components/ui/tooltip"
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-	Empty,
-	EmptyContent,
-	EmptyDescription,
-	EmptyHeader,
-	EmptyTitle,
-} from "@/components/ui/empty"
-import { accountAtom } from "@/atoms/account"
-import { type Bot, botsAtom } from "@/atoms/bots"
-import {
-	type Attachment,
-	createLiveChatAtom,
-	messageBotAtom,
-	sendMessageAtom,
-} from "@/atoms/chat"
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty"
+import { botsAtom } from "@/atoms/bots"
+import { type Attachment, createLiveChatAtom, messageBotAtom, sendMessageAtom } from "@/atoms/chat"
 import { chatsAtom, modelCatalogAtom } from "@/atoms/chats"
 import { Composer } from "@/components/app/Composer"
-import { LogoMark } from "@/components/app/Logo"
 import { PageHeader } from "@/components/app/PageHeader"
 import { errorMessage } from "@/lib/api"
 import { resultValue } from "@/lib/utils"
 
-const ideas = [
-	{ icon: FileSearchIcon, label: "Research", text: "Find and compare " },
-	{ icon: CodeIcon, label: "Write code", text: "Write a script that " },
-	{
-		icon: CalendarClockIcon,
-		label: "Plan my week",
-		text: "Help me plan my week. ",
-	},
-	{ icon: LightbulbIcon, label: "Brainstorm", text: "Give me ten ideas for " },
-] as const
-
-const greeting = (hour: number) =>
-	hour < 5
-		? "Good night"
-		: hour < 12
-			? "Good morning"
-			: hour < 18
-				? "Good afternoon"
-				: "Good evening"
-
 /** The start page: a big composer that starts a new chat. */
 export function HomePage() {
 	const navigate = useNavigate()
-	const [params, setParams] = useSearchParams()
-	const account = resultValue(useAtomValue(accountAtom))
-	const loaded = resultValue(useAtomValue(botsAtom))
+	const [params] = useSearchParams()
+	const botsResult = useAtomValue(botsAtom)
+	const loaded = resultValue(botsResult)
+	const refreshBots = useAtomRefresh(botsAtom)
 	const bots = loaded?.bots ?? []
 	const chats = resultValue(useAtomValue(chatsAtom)) ?? []
 	const messageBot = useAtomSet(messageBotAtom, { mode: "promise" })
@@ -81,14 +27,9 @@ export function HomePage() {
 	const send = useAtomSet(sendMessageAtom)
 	const liveModels = resultValue(useAtomValue(modelCatalogAtom("live"))) ?? []
 	const [busy, setBusy] = useState(false)
-	const [seed, setSeed] = useState<{
-		readonly text: string
-		readonly key: number
-	}>()
 
 	const botId = params.get("bot") ?? loaded?.defaultBot ?? bots[0]?.id
-	const bot = bots.find((item) => item.id === botId)
-	const firstName = account?.profile.name?.split(" ")[0]
+	const bot = bots.find((item) => item.id === botId) ?? bots.find(item => item.id === loaded?.defaultBot) ?? bots[0]
 
 	// You have one direct Chat with each Bot. A message goes on in that Chat.
 	const start = (text: string, files: ReadonlyArray<Attachment>) => {
@@ -126,154 +67,31 @@ export function HomePage() {
 			})
 	}
 
-	return (
-		<div className="flex h-full flex-col">
-			<PageHeader />
-			<div className="flex flex-1 flex-col items-center justify-center px-4 pb-[12vh]">
-				<div className="flex w-full max-w-3xl flex-col items-center gap-8">
-					<div className="flex flex-col items-center gap-4 text-center">
-						<LogoMark className="size-12" />
-						<h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-							{greeting(new Date().getHours())}
-							{firstName ? `, ${firstName}` : ""}
-						</h1>
-					</div>
-					{loaded !== undefined && bots.length === 0 ? (
-						// OpenBot makes no Bot for a new member. Show how to start.
-						<Empty className="bg-muted/50">
-							<EmptyHeader>
-								<EmptyTitle>Make your first Bot</EmptyTitle>
-								<EmptyDescription>
-									A Bot does work for you. Give it a name and a job, and then
-									send it a message here.
-								</EmptyDescription>
-							</EmptyHeader>
-							<EmptyContent>
-								<Button nativeButton={false} render={<Link to="/bots?new=1" />}>
-									<PlusIcon /> New Bot
-								</Button>
-							</EmptyContent>
-						</Empty>
-					) : (
-						<>
-							<Composer
-								key={seed?.key}
-								autoFocus
-								attachments
-								disabled={busy}
-								onSend={start}
-								initialText={seed?.text}
-								placeholder={
-									bot ? `Ask ${bot.name}` : "What do you want to get done?"
-								}
-								tools={
-									<>
-										<BotPicker
-											bots={bots}
-											defaultBot={loaded?.defaultBot ?? null}
-											current={bot}
-											onChange={(id) => {
-												const next = new URLSearchParams(params)
-												if (id === loaded?.defaultBot) next.delete("bot")
-												else next.set("bot", id)
-												setParams(next, { replace: true })
-											}}
-										/>
-										{bot !== undefined && liveModels.length > 0 ? (
-											<Tooltip>
-												<TooltipTrigger
-													render={
-														<Button
-															variant="ghost"
-															size="lg"
-															disabled={busy}
-															onClick={talk}
-															className="h-9 rounded-full px-3 text-sm text-muted-foreground"
-														/>
-													}
-												>
-													<MicIcon /> Talk
-												</TooltipTrigger>
-												<TooltipContent>
-													Talk with {bot.name} with your voice
-												</TooltipContent>
-											</Tooltip>
-										) : null}
-									</>
-								}
-							/>
-							<div className="flex flex-wrap justify-center gap-2">
-								{ideas.map((idea) => (
-									<Button
-										key={idea.label}
-										variant="outline"
-										size="lg"
-										className="h-9 rounded-full px-4 text-sm text-muted-foreground"
-										onClick={() =>
-											setSeed({ text: idea.text, key: Date.now() })
-										}
-									>
-										<idea.icon /> {idea.label}
-									</Button>
-								))}
-							</div>
-						</>
-					)}
-				</div>
-			</div>
-		</div>
-	)
-}
+  return (
+    <div className="flex h-full min-h-0 flex-col">
+      <PageHeader title={bot?.name ?? "OpenBot"} />
+      <div className="flex flex-1 flex-col overflow-y-auto px-5 pb-10 sm:px-10">
+        <div className="home-stage mx-auto my-auto flex w-full max-w-4xl flex-col py-10 sm:py-14">
+          <div className="mb-9 sm:mb-12">
+            <h1 className="max-w-2xl text-display-small sm:text-display-large">What’s on<br />your mind?</h1>
+          </div>
+          {botsResult._tag === "Failure" && !loaded ? <Empty className="bg-muted">
+            <EmptyHeader><EmptyTitle>Your Bots could not load</EmptyTitle><EmptyDescription>{errorMessage(botsResult.cause)}</EmptyDescription></EmptyHeader>
+            <EmptyContent><Button onClick={refreshBots}>Try again</Button></EmptyContent>
+          </Empty> : loaded !== undefined && bots.length === 0 ? <Empty className="items-start bg-muted p-8 sm:p-10">
+            <EmptyHeader className="items-start text-left"><EmptyTitle>Your first Bot</EmptyTitle></EmptyHeader>
+            <EmptyContent className="items-start"><Button nativeButton={false} render={<Link to="/bots?new=1" />}><PlusIcon /> Create a Bot</Button></EmptyContent>
+          </Empty> : <>
+            <Composer attachments autoFocus disabled={busy || !bot} onSend={start}
+              className="home-composer" placeholder={bot ? `Message ${bot.name}…` : "Loading your Bots…"}
+              tools={<>
+                <span className="px-2 text-body-medium text-muted-foreground">{bot?.name ?? "Loading…"}</span>
+                {bot && liveModels.length > 0 && <Button variant="ghost" size="sm" disabled={busy} onClick={talk} className="ml-auto h-9 gap-2 px-3"><MicIcon /> Talk</Button>}
+              </>} />
 
-function BotPicker({
-	bots,
-	defaultBot,
-	current,
-	onChange,
-}: {
-	readonly bots: ReadonlyArray<Bot>
-	readonly defaultBot: string | null
-	readonly current: Bot | undefined
-	readonly onChange: (id: string) => void
-}) {
-	if (bots.length <= 1) return null
-	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger
-				render={
-					<Button
-						variant="ghost"
-						size="lg"
-						className="h-9 max-w-48 rounded-full px-3 text-sm text-muted-foreground"
-					/>
-				}
-			>
-				<BotIcon />
-				<span className="truncate">{current?.name ?? "Bot"}</span>
-				<ChevronDownIcon />
-			</DropdownMenuTrigger>
-			<DropdownMenuContent align="start" className="w-64">
-				<DropdownMenuLabel>Who works on it</DropdownMenuLabel>
-				<DropdownMenuSeparator />
-				{bots.map((bot) => (
-					<DropdownMenuItem
-						key={bot.id}
-						onClick={() => onChange(bot.id)}
-						className="py-2"
-					>
-						<span className="flex min-w-0 flex-col">
-							<span className="truncate text-sm">
-								{bot.id === defaultBot ? `${bot.name} (Default)` : bot.name}
-							</span>
-							{bot.role ? (
-								<span className="truncate text-xs text-muted-foreground">
-									{bot.role}
-								</span>
-							) : null}
-						</span>
-					</DropdownMenuItem>
-				))}
-			</DropdownMenuContent>
-		</DropdownMenu>
-	)
+          </>}
+        </div>
+      </div>
+    </div>
+  )
 }

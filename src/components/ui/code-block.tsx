@@ -1,12 +1,12 @@
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
+import { cn } from "@/lib/cn"
 
 import { Button } from "@/components/ui/button"
 import { CheckIcon, CopyIcon } from "lucide-react"
 
 const codeBlockVariants = cva(
-	"group/code-block relative flex w-full min-w-0 flex-col overflow-hidden rounded-2xl text-sm has-[>[data-slot=code-block-content]:focus-visible]:ring-2 has-[>[data-slot=code-block-content]:focus-visible]:ring-ring/30 data-[size=sm]:text-xs",
+	"group/code-block relative flex w-full min-w-0 flex-col overflow-hidden rounded-surface [corner-shape:round] text-body-medium has-[>[data-slot=code-block-content]:focus-visible]:ring-2 has-[>[data-slot=code-block-content]:focus-visible]:ring-ring/30 data-[size=sm]:text-body-small",
 	{
 		variants: {
 			variant: {
@@ -43,7 +43,7 @@ function CodeBlockHeader({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="code-block-header"
 			className={cn(
-				"flex min-w-0 shrink-0 items-center gap-2 px-3 pt-3 text-muted-foreground group-data-[size=sm]/code-block:px-2 group-data-[size=sm]/code-block:pt-2 group-data-[variant=destructive]/code-block:text-destructive *:has-[>[data-slot=code-block-title]]:min-w-0",
+				"flex min-w-0 shrink-0 items-center gap-2 px-2 pt-2 text-muted-foreground group-data-[size=sm]/code-block:px-2 group-data-[size=sm]/code-block:pt-2 group-data-[variant=destructive]/code-block:text-destructive *:has-[>[data-slot=code-block-title]]:min-w-0",
 				className,
 			)}
 			{...props}
@@ -56,7 +56,7 @@ function CodeBlockTitle({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="code-block-title"
 			className={cn(
-				"min-w-0 truncate font-sans text-xs font-medium text-foreground group-data-[variant=destructive]/code-block:text-destructive [&_svg]:pointer-events-none [&_svg]:inline-block [&_svg]:align-middle [&_svg:not([class*='size-'])]:size-3.5 *:[svg]:me-1.5",
+				"min-w-0 truncate font-sans text-body-small font-medium text-foreground group-data-[variant=destructive]/code-block:text-destructive [&_svg]:pointer-events-none [&_svg]:inline-block [&_svg]:align-middle [&_svg:not([class*='size-'])]:size-3.5 *:[svg]:me-1.5",
 				className,
 			)}
 			{...props}
@@ -72,7 +72,7 @@ function CodeBlockActions({
 		<div
 			data-slot="code-block-actions"
 			className={cn(
-				"-my-1 ms-auto -me-1.5 flex shrink-0 items-center gap-1 [[data-slot=code-block]>&]:absolute [[data-slot=code-block]>&]:end-2 [[data-slot=code-block]>&]:top-2 [[data-slot=code-block]>&]:z-10 [[data-slot=code-block]>&]:m-0 [[data-slot=code-block]>&]:opacity-0 [[data-slot=code-block]>&]:transition-opacity [[data-slot=code-block]>&]:group-focus-within/code-block:opacity-100 [[data-slot=code-block]>&]:group-hover/code-block:opacity-100 group-data-[size=sm]/code-block:[[data-slot=code-block]>&]:end-1.5 group-data-[size=sm]/code-block:[[data-slot=code-block]>&]:top-1.5 [[data-slot=code-block]>&]:pointer-coarse:opacity-100 [[data-slot=code-block]>&]:*:[button]:bg-background",
+				"ms-auto flex shrink-0 items-center gap-1 [[data-slot=code-block]>&]:absolute [[data-slot=code-block]>&]:end-2 [[data-slot=code-block]>&]:top-2 [[data-slot=code-block]>&]:z-10 [[data-slot=code-block]>&]:m-0 [[data-slot=code-block]>&]:opacity-0 [[data-slot=code-block]>&]:transition-opacity [[data-slot=code-block]>&]:group-focus-within/code-block:opacity-100 [[data-slot=code-block]>&]:group-hover/code-block:opacity-100 [[data-slot=code-block]>&]:pointer-coarse:opacity-100 [[data-slot=code-block]>&]:*:[button]:bg-background",
 				className,
 			)}
 			{...props}
@@ -107,7 +107,7 @@ function CodeBlockCopyButton({
 				variant={variant}
 				size={size}
 				aria-label={copied ? "Copied" : "Copy"}
-				className={cn(className)}
+				className={cn("rounded-full", className)}
 				onClick={(event) => {
 					onClick?.(event)
 					navigator.clipboard
@@ -219,7 +219,7 @@ function CodeBlockFooter({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="code-block-footer"
 			className={cn(
-				"flex min-w-0 shrink-0 items-center gap-2 px-3 pb-3 text-muted-foreground group-data-[size=sm]/code-block:px-2 group-data-[size=sm]/code-block:pb-2",
+				"flex min-w-0 shrink-0 items-center gap-2 px-2 pb-2 text-muted-foreground group-data-[size=sm]/code-block:px-2 group-data-[size=sm]/code-block:pb-2",
 				className,
 			)}
 			{...props}

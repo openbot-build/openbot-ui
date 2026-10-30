@@ -16,12 +16,12 @@ export function PageHeader({
 	return (
 		<header
 			className={cn(
-				"sticky top-0 z-10 flex h-14 shrink-0 items-center gap-2 bg-background/80 px-3 backdrop-blur",
+				"sticky top-0 z-10 flex min-h-20 shrink-0 items-center gap-3 bg-background px-(--sheet-action-inset) py-4 md:min-h-[110px] md:px-(--frame-action-inset) md:py-(--frame-action-inset)",
 				className,
 			)}
 		>
-			{isMobile || state === "collapsed" ? <SidebarTrigger /> : null}
-			<div className="min-w-0 flex-1 truncate text-sm font-medium">{title}</div>
+			{isMobile || state === "collapsed" ? <SidebarTrigger className="size-11 [&_svg]:size-5" /> : null}
+			<div className="min-w-0 flex-1 truncate text-title-large">{title}</div>
 			{actions ? (
 				<div className="flex items-center gap-1">{actions}</div>
 			) : null}

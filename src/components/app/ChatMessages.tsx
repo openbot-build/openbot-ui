@@ -81,7 +81,7 @@ export function UserMessage({
 				) : null}
 				{text.length > 0 ? (
 					<Bubble variant="secondary" align="end" className="max-w-[85%]">
-						<BubbleContent className="rounded-2xl px-4 py-2.5 text-[0.95rem] leading-7 whitespace-pre-wrap">
+						<BubbleContent className="rounded-2xl px-4 py-2.5 text-body-large whitespace-pre-wrap">
 							{text}
 						</BubbleContent>
 					</Bubble>
@@ -111,7 +111,7 @@ function ReasoningTrace({
 			<TraceCollapsibleContent>
 				<Markdown
 					text={text}
-					className="text-xs/relaxed text-muted-foreground"
+					className="text-body-medium text-muted-foreground"
 				/>
 			</TraceCollapsibleContent>
 		</TraceCollapsible>
@@ -355,7 +355,7 @@ export function AssistantMessage({
 						</ActionButton>
 					) : null}
 					{duration ? (
-						<span className="ml-1.5 text-xs font-normal text-muted-foreground">
+						<span className="ml-1.5 text-body-small font-normal text-muted-foreground">
 							Worked for {duration}
 						</span>
 					) : null}

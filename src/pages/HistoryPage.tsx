@@ -48,7 +48,7 @@ export function HistoryPage() {
 		<div className="flex h-full flex-col overflow-y-auto">
 			<PageHeader title="History" />
 			<div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-6">
-				<h1 className="text-2xl font-semibold tracking-tight">History</h1>
+				<h1 className="text-headline-small">History</h1>
 				<InputGroup className="h-10 rounded-full">
 					<InputGroupAddon>
 						<SearchIcon />
@@ -57,7 +57,7 @@ export function HistoryPage() {
 						value={query}
 						onChange={(event) => setQuery(event.target.value)}
 						placeholder="Search your chats"
-						className="text-sm"
+						className="text-body-medium"
 					/>
 				</InputGroup>
 				<ChatList query={query} />
@@ -72,7 +72,7 @@ function ChatList({ query }: { readonly query: string }) {
 	const bots = resultValue(useAtomValue(botsAtom))?.bots ?? []
 	if (chats === undefined)
 		return result._tag === "Failure" ? (
-			<p className="text-sm text-muted-foreground">
+			<p className="text-body-medium text-muted-foreground">
 				{errorMessage(result.cause)}
 			</p>
 		) : (
@@ -117,7 +117,7 @@ function ChatList({ query }: { readonly query: string }) {
 						render={<Link to={`/c/${item.chat.id}`} />}
 					>
 						<ItemContent>
-							<ItemTitle className="text-sm">
+							<ItemTitle className="text-body-medium">
 								{name}
 								{kind ? <Badge variant="outline">{kind}</Badge> : null}
 							</ItemTitle>

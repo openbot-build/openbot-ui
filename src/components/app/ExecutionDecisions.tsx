@@ -50,7 +50,7 @@ function ToolDecisions({ operation }: { readonly operation: ToolCall }) {
 	const refresh = useAtomRefresh(atom)
 	if (result._tag === "Failure")
 		return (
-			<Item className="min-h-(--corner-room) gap-y-5 rounded-screen bg-card p-(--corner-inset)">
+			<Item className="gap-y-5 rounded-panel nested-controls bg-card p-(--surface-inset)">
 				<ItemContent role="alert">
 					<ItemTitle>The choices did not load</ItemTitle>
 					<ItemDescription className="line-clamp-none">
@@ -94,7 +94,7 @@ function DecisionCard({
 	}
 	if (status === "saved") return null
 	return (
-		<Item className="min-h-(--corner-room) gap-y-5 rounded-screen bg-card p-(--corner-inset)">
+		<Item className="gap-y-5 rounded-panel nested-controls bg-card p-(--surface-inset)">
 			<ItemContent>
 				<ItemTitle>{toolLabel(operation.tool)} needs your answer</ItemTitle>
 				<ItemDescription className="line-clamp-none">

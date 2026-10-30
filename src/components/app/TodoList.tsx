@@ -11,7 +11,6 @@ import { cn, resultValue } from "@/lib/utils"
 
 /**
  * The todo list that the Bot keeps while it works. It hides when it is empty.
- * Closed, it is one 44px row, too short for the screen corner, so it is a pill.
  */
 export function TodoList({ id }: { readonly id: string }) {
 	const todos = resultValue(useAtomValue(todosAtom(id)))?.items ?? []
@@ -19,14 +18,14 @@ export function TodoList({ id }: { readonly id: string }) {
 	const done = todos.filter((todo) => todo.status === "done").length
 	const current = todos.find((todo) => todo.status === "in_progress")
 	return (
-		<Collapsible className="rounded-screen bg-card text-sm data-closed:rounded-full">
+		<Collapsible className="rounded-group bg-card text-body-medium data-closed:rounded-lg">
 			<CollapsibleTrigger className="flex w-full items-center gap-2 px-6 py-3 text-left data-panel-open:pt-6">
 				<ListTodoIcon className="size-4 text-muted-foreground" />
 				<span className="min-w-0 flex-1 truncate">
 					{current?.content ??
 						(done === todos.length ? "All steps are done" : "Steps")}
 				</span>
-				<span className="text-xs text-muted-foreground tabular-nums">
+				<span className="text-body-small text-muted-foreground tabular-nums">
 					{done}/{todos.length}
 				</span>
 			</CollapsibleTrigger>

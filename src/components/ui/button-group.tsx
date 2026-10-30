@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
+import { cn } from "@/lib/cn"
 
 import { Separator } from "@/components/ui/separator"
 
@@ -11,9 +11,9 @@ const buttonGroupVariants = cva(
 		variants: {
 			orientation: {
 				horizontal:
-					"*:data-slot:rounded-r-none [&>[data-slot]:not(:has(~[data-slot]))]:rounded-r-full! [&>[data-slot]~[data-slot]]:rounded-l-none",
+					"*:data-slot:rounded-r-none [&>[data-slot]:not(:has(~[data-slot]))]:rounded-r-button! [&>[data-slot]~[data-slot]]:rounded-l-none",
 				vertical:
-					"flex-col *:data-slot:rounded-b-none [&>[data-slot]:not(:has(~[data-slot]))]:rounded-b-full! [&>[data-slot]~[data-slot]]:rounded-t-none",
+					"flex-col *:data-slot:rounded-b-none [&>[data-slot]:not(:has(~[data-slot]))]:rounded-b-button! [&>[data-slot]~[data-slot]]:rounded-t-none",
 			},
 		},
 		defaultVariants: {
@@ -48,7 +48,7 @@ function ButtonGroupText({
 		props: mergeProps<"div">(
 			{
 				className: cn(
-					"flex items-center gap-2 rounded-full bg-muted px-3 text-xs/relaxed font-medium [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
+					"flex items-center gap-2 rounded-button bg-muted px-3 text-label-large font-medium [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
 					className,
 				),
 			},

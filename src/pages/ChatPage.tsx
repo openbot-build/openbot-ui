@@ -238,7 +238,7 @@ function Chat({ id }: { readonly id: string }) {
 						bot={view.chat.bot}
 						align="end"
 						trigger={
-							<Button variant="ghost" size="icon-lg" aria-label="Chat actions">
+							<Button variant="ghost" size="icon" aria-label="Chat actions">
 								<EllipsisIcon />
 							</Button>
 						}
@@ -248,9 +248,9 @@ function Chat({ id }: { readonly id: string }) {
 			<MessageScrollerProvider autoScroll defaultScrollPosition="end">
 				<MessageScroller className="flex-1">
 					<MessageScrollerViewport>
-						<MessageScrollerContent className="mx-auto w-full max-w-3xl gap-8 px-4 pt-4 pb-10">
+						<MessageScrollerContent className="mx-auto w-full max-w-4xl gap-10 px-5 pt-6 pb-10 sm:px-9">
 							{rows.length === 0 && streaming === undefined && !showTalk ? (
-								<p className="py-16 text-center text-sm text-muted-foreground">
+								<p className="py-16 text-center text-body-medium text-muted-foreground">
 									{isLive
 										? "Start talking, and the Bot answers with sound."
 										: "Send a message to start."}
@@ -339,7 +339,7 @@ function Chat({ id }: { readonly id: string }) {
 					<MessageScrollerButton />
 				</MessageScroller>
 			</MessageScrollerProvider>
-			<div className="mx-auto flex w-full max-w-3xl shrink-0 flex-col gap-2 px-4 pb-4">
+			<div className="mx-auto flex w-full max-w-4xl shrink-0 flex-col gap-3 px-4 pb-5 sm:px-8">
 				<ExecutionDecisions operations={state.operations} />
 				{requests.map((request) => (
 					<RequestCard key={request.id} request={request} />
@@ -350,7 +350,7 @@ function Chat({ id }: { readonly id: string }) {
 						{talk.state.error !== undefined ? (
 							<p
 								role="alert"
-								className="px-4 text-center text-sm text-destructive"
+								className="px-4 text-center text-body-medium text-destructive"
 							>
 								{talk.state.error}
 							</p>
@@ -396,7 +396,7 @@ function Chat({ id }: { readonly id: string }) {
 						busy={busy}
 						onSend={onSend}
 						onStop={() => void stop(id).catch(fail)}
-						placeholder="Ask a follow-up"
+						placeholder="Keep the conversation going…"
 						tools={
 							<>
 								<ModeToggle
@@ -416,9 +416,6 @@ function Chat({ id }: { readonly id: string }) {
 						}
 					/>
 				)}
-				<p className="text-center text-[0.7rem] text-muted-foreground">
-					Bots can make mistakes. Check important results.
-				</p>
 			</div>
 		</div>
 	)

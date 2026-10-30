@@ -125,7 +125,7 @@ export function Composer({
 	busy = false,
 	disabled = false,
 	attachments = false,
-	placeholder = "What do you want to get done?",
+	placeholder = "Ask anything, or share an idea…",
 	tools,
 	autoFocus = false,
 	initialText = "",
@@ -206,7 +206,7 @@ export function Composer({
 			onDragLeave={() => setDragging(false)}
 			onDrop={onDrop}
 			className={cn(
-				"rounded-screen! bg-composer! has-[[data-slot=input-group-control]:focus-visible]:ring-0!",
+				"rounded-composer! bg-composer! has-[[data-slot=input-group-control]:focus-visible]:ring-2 has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50",
 				dragging && "bg-accent!",
 				className,
 			)}
@@ -214,7 +214,7 @@ export function Composer({
 			{drafts.files.length > 0 ? (
 				<InputGroupAddon
 					align="block-start"
-					className="cursor-default px-(--corner-inset) pt-6 pb-0"
+					className="cursor-default px-(--surface-inset) pt-6 pb-0"
 				>
 					<DraftFiles drafts={drafts.files} onRemove={drafts.remove} />
 				</InputGroupAddon>
@@ -228,11 +228,11 @@ export function Composer({
 				onPaste={onPaste}
 				placeholder={placeholder}
 				aria-label="Message"
-				className="max-h-80 min-h-14 px-(--corner-inset) pt-6 text-base leading-6 md:text-[0.95rem]"
+				className="max-h-80 min-h-20 px-(--surface-inset) pt-6 text-body-large"
 			/>
 			<InputGroupAddon
 				align="block-end"
-				className="gap-1.5 px-(--corner-inset) pb-(--corner-inset)"
+				className="items-end gap-1.5 px-(--composer-inset) pb-(--composer-inset)"
 			>
 				<div className="flex min-w-0 flex-1 flex-wrap items-center gap-1">
 					{attachments ? (
@@ -257,7 +257,7 @@ export function Composer({
 											disabled={disabled}
 											onClick={() => picker.current?.click()}
 											aria-label="Add files"
-											className="size-9 rounded-full text-muted-foreground"
+											className="size-(--composer-button-size) rounded-full text-muted-foreground"
 										/>
 									}
 								>
@@ -275,7 +275,7 @@ export function Composer({
 						size="icon-sm"
 						onClick={onStop}
 						aria-label="Stop"
-						className="size-9 rounded-full"
+						className="size-(--composer-button-size) rounded-full"
 					>
 						<SquareIcon className="size-3.5 fill-current" />
 					</InputGroupButton>
@@ -286,7 +286,7 @@ export function Composer({
 						onClick={send}
 						disabled={!canSend}
 						aria-label="Send"
-						className="size-9 rounded-full"
+						className="size-(--composer-button-size) rounded-full"
 					>
 						<ArrowUpIcon className="size-4.5" strokeWidth={2.5} />
 					</InputGroupButton>

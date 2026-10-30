@@ -61,6 +61,18 @@ export const Api = OpenBot.Client
 export const errorMessage = (cause: unknown): string => {
 	const error = Cause.isCause(cause) ? Cause.squash(cause) : cause
 	if (Predicate.isObject(error)) {
+        if (Predicate.hasProperty(error, "_tag") && error._tag === "AccessDenied" && Predicate.hasProperty(error, "reason")) {
+            switch(error.reason) {
+                case "pending": return "Your request is waiting for approval. Sign in again after it is approved."
+                case "closed": return "New account registration is closed. Contact an administrator for access."
+                case "rejected": return "Your access request was declined. Contact an administrator."
+                case "suspended": return "This account is suspended. Contact an administrator."
+                case "rate_limited": return "Please wait a minute before trying again."
+                case "invitation": return "This invitation is not valid for your email. Ask for a new invitation."
+                case "identity": return "The code or identity could not be checked. Use a new code or your original sign-in provider."
+                default: return "Access was not granted. Contact an administrator."
+            }
+        }
 		if (Predicate.hasProperty(error, "message")) {
 			const message = error.message
 			if (Predicate.isString(message) && message.length > 0) return message
