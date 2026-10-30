@@ -36,7 +36,7 @@ export function SignInPage() {
      : reason === "closed" ? "New account registration is closed. Contact an administrator for access."
      : reason === "suspended" ? "This account is suspended. Contact an administrator."
      : reason ? "Access was not granted. Check your invitation or contact an administrator."
-     : options._tag === "Success" && options.value.selfService === "closed" ? "Sign in with an existing account or use access granted by an administrator. Open registration is closed." : null
+     : options._tag === "Success" && options.value.selfService === "closed" ? "Sign in with an existing account, a valid invitation, or access granted by an administrator. Open registration is closed." : null
 	const signIn = useAtomSet(signInAtom, { mode: "promise" })
 	const [email, setEmail] = useState("")
 	const [busy, setBusy] = useState(false)
@@ -86,7 +86,7 @@ export function SignInPage() {
 									placeholder="you@example.com"
 								/>
 								<FieldDescription>
-									{emailReady ? "We send a code to this email. New accounts need permission from your administrator." : "Your organization may use its own sign-in. We find it from your email."}
+									{emailReady ? "We send a sign-in code to this email." : "Your organization may use its own sign-in. We find it from your email."}
 								</FieldDescription>
 							</Field>
 							<Field>

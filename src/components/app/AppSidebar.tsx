@@ -88,7 +88,7 @@ export function AppSidebar() {
         {(account?.memberships.filter(m => m.status === "active").length ?? 0) > 1 && <label>
           <span className="sr-only">Current space</span>
           <select className="w-full cursor-pointer rounded-full bg-transparent px-3 py-2 text-body-medium text-muted-foreground focus-visible:outline-2" value={space ?? ""} onChange={event => setSpace(event.target.value)}>
-            {account?.memberships.filter(m => m.status === "active").map(m => <option key={m.organizationId} value={m.organizationId}>{m.kind === "personal" ? "Personal space" : m.name}</option>)}
+            {account?.memberships.filter(m => m.status === "active").map(m => <option key={m.organizationId} value={m.organizationId}>{m.name}</option>)}
           </select>
         </label>}
         <AccountMenu />
@@ -100,10 +100,9 @@ export function AppSidebar() {
 function AccountMenu() {
   const account = resultValue(useAtomValue(accountAtom));
   const space = useAtomValue(organizationAtom);
-  const canBill = useAtomValue(billingAtom(space ?? ""))._tag === "Success";
-  const privateSpace =
-    account?.memberships.find((m) => m.organizationId === space)?.kind ===
-    "personal";
+  const billing = resultValue(useAtomValue(billingAtom(space ?? "")));
+  const canBill = billing !== undefined;
+  const privateSpace = billing?.kind === "personal";
   const [theme, setTheme] = useAtom(themeAtom);
   const setSettingsTab = useAtomSet(settingsTabAtom);
   const name = account?.profile.name ?? account?.profile.email ?? "Account";

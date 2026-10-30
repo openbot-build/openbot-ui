@@ -113,9 +113,10 @@ function FullPageSpinner() {
 }
 
 function NoOrganization() {
- const account = useAtomValue(accountAtom)
- const canCreate = account._tag === "Success" && account.value.canCreateOrganization
- const admin = account._tag === "Success" && account.value.platformAdmin
+	const account = useAtomValue(accountAtom)
+	const canCreate =
+		account._tag === "Success" && account.value.canCreateOrganization
+	const admin = account._tag === "Success" && account.value.platformAdmin
 	const create = useAtomSet(createOrganizationAtom, { mode: "promise" })
 	const refresh = useAtomRefresh(accountAtom)
 	const [name, setName] = useState("")
@@ -128,35 +129,38 @@ function NoOrganization() {
 				</EmptyMedia>
 				<EmptyTitle>Your organization access</EmptyTitle>
 				<EmptyDescription>
-					Your account is not in an organization yet. Accept an invitation or contact your administrator.
+					Your account is not in an organization yet. Accept an invitation or
+					contact your administrator.
 				</EmptyDescription>
 			</EmptyHeader>
 			<EmptyContent>
-				{canCreate && <form
-					className="flex w-full max-w-sm gap-2"
-					onSubmit={(event) => {
-						event.preventDefault()
-						if (name.trim().length === 0) return
-						setBusy(true)
-						create(name.trim())
-							.then(refresh, (cause: unknown) =>
-								toast.error(errorMessage(cause)),
-							)
-							.finally(() => setBusy(false))
-					}}
-				>
-					<Input
-						value={name}
-						onChange={(event) => setName(event.target.value)}
-						placeholder="Organization name"
-						aria-label="Organization name"
-					/>
-					<Button type="submit" disabled={busy || name.trim().length === 0}>
-						{busy ? <Spinner /> : null} Create
-					</Button>
-				</form>}
-                <InvitationList />
-                {admin && <Link to="/admin">Platform administration</Link>}
+				{canCreate && (
+					<form
+						className="flex w-full max-w-sm gap-2"
+						onSubmit={(event) => {
+							event.preventDefault()
+							if (name.trim().length === 0) return
+							setBusy(true)
+							create(name.trim())
+								.then(refresh, (cause: unknown) =>
+									toast.error(errorMessage(cause)),
+								)
+								.finally(() => setBusy(false))
+						}}
+					>
+						<Input
+							value={name}
+							onChange={(event) => setName(event.target.value)}
+							placeholder="Organization name"
+							aria-label="Organization name"
+						/>
+						<Button type="submit" disabled={busy || name.trim().length === 0}>
+							{busy ? <Spinner /> : null} Create
+						</Button>
+					</form>
+				)}
+				<InvitationList />
+				{admin && <Link to="/admin">Platform administration</Link>}
 			</EmptyContent>
 		</Empty>
 	)

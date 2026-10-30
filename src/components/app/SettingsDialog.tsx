@@ -158,7 +158,7 @@ function GeneralSettings() {
 									key={item.organizationId}
 									value={item.organizationId}
 								>
-									{item.kind === "personal" ? "Personal space" : item.name}
+									{item.name}
 								</SelectItem>
 							))}
 						</SelectContent>

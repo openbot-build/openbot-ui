@@ -16,17 +16,21 @@ import { SignInPage } from "@/pages/SignInPage"
 /** The pages of the app. It runs only in the browser. */
 export const router = createBrowserRouter([
 	{ path: "/sign-in", element: <SignInPage /> },
- { path: "/invitations", element: <InvitationsPage /> },
- { path: "/admin", element: <AdminLayout />, children: [{ index: true, element: <PlatformPage /> }] },
+	{ path: "/invitations", element: <InvitationsPage /> },
+	{
+		path: "/admin",
+		element: <AdminLayout />,
+		children: [{ index: true, element: <PlatformPage /> }],
+	},
 	{
 		element: <AppLayout />,
 		children: [
 			{ index: true, element: <HomePage /> },
 			{ path: "c/:chatId", element: <ChatPage /> },
 			{ path: "bots", element: <BotsPage /> },
- { path: "billing", element: <BillingPage /> },
- { path: "billing/orders/:orderId", element: <BillingPage /> },
- { path: "organization", element: <OrganizationPage /> },
+			{ path: "billing", element: <BillingPage /> },
+			{ path: "billing/orders/:orderId", element: <BillingPage /> },
+			{ path: "organization", element: <OrganizationPage /> },
 			// Agents are Bots now. Old links still work.
 			{ path: "agents", element: <Navigate to="/bots" replace /> },
 			{ path: "requests", element: <RequestsPage /> },
