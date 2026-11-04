@@ -1881,7 +1881,7 @@ export function Live({
 							{selected.chat.queuedInputs}
 						</p>
 						<ChatSettings
-							key={selected.chat.id}
+							key={`settings:${selected.chat.id}`}
 							client={client}
 							chat={selected.chat}
 							disabled={
