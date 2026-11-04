@@ -1,0 +1,24 @@
+{
+	"name": "@kaicom/kay-contracts",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"sideEffects": false,
+	"exports": {
+		".": "./dist/index.js",
+		"./Client": "./dist/Client.js",
+		"./Native": "./dist/Native.js"
+	},
+	"files": [
+		"dist",
+		"src"
+	],
+	"scripts": {
+		"build": "tsdown",
+		"test": "tsc -p tsconfig.test.json && node --test test/*.test.ts"
+	},
+	"dependencies": {
+		"effect": "4.0.5"
+	},
+	"license": "MIT"
+}

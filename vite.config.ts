@@ -1,30 +1,52 @@
 import { defineConfig } from "vite"
+import { readFileSync } from "node:fs"
 import react from "@vitejs/plugin-react"
 import tailwindcss from "@tailwindcss/vite"
+import { lingui } from "@lingui/vite-plugin"
 
-/**
- * The OpenBot server that the development server sends API calls to. The devenv
- * proxy serves it at http://localhost. Browsers treat localhost as a secure
- * place, so the `__Host-` session cookie works without HTTPS.
- */
-const apiOrigin = process.env.OPENBOT_DEV_PUBLIC_ORIGIN ?? "http://localhost"
-
-const proxy = {
-	target: apiOrigin,
-	// The devenv proxy finds the server by the host name.
-	changeOrigin: true,
-	// OpenBot accepts writes and WebSockets with the session cookie only from its
-	// exact public origin. The page and the API look like one origin to the browser.
-	headers: { origin: apiOrigin },
-}
+const origin = process.env.OPENBOT_DEV_PUBLIC_ORIGIN ?? "http://localhost:5180"
+const target = process.env.OPENBOT_DEV_API_ORIGIN ?? "http://127.0.0.1:3000"
+const productOrigin = process.env.OPENBOT_UI_GATEWAY ?? "http://127.0.0.1:3100"
+const api = { target, changeOrigin: true, headers: { origin }, ws: true }
 
 export default defineConfig({
 	resolve: { tsconfigPaths: true },
-	plugins: [tailwindcss(), react()],
+	plugins: [
+		lingui({
+			macroTransform: true,
+			failOnMissing: "catalog",
+			failOnCompileError: true,
+		}),
+		{
+			name: "third-party-notices",
+			generateBundle() {
+				this.emitFile({
+					type: "asset",
+					fileName: "THIRD_PARTY_NOTICES.txt",
+					source: readFileSync(
+						new URL("./THIRD_PARTY_NOTICES.md", import.meta.url),
+						"utf8",
+					),
+				})
+			},
+		},
+		tailwindcss(),
+		react(),
+	],
+	build: { license: { fileName: "licenses/dependencies.md" } },
 	server: {
-		port: 5173,
-		// `ws` also sends the Live WebSocket of a live Chat to OpenBot.
-		proxy: { "/v1": { ...proxy, ws: true }, "/auth": proxy, "/health": proxy },
+		port: 5180,
+		proxy: {
+			"/api/kay": {
+				target: productOrigin,
+				changeOrigin: false,
+				headers: { origin },
+				ws: true,
+			},
+			"/v1": api,
+			"/auth": api,
+			"/health": api,
+		},
 	},
-	preview: { port: 5173 },
+	preview: { port: 5180 },
 })

@@ -1,0 +1,404 @@
+{
+	"usage.getUsage": [
+		{
+			"kind": "Usage",
+			"action": "read"
+		}
+	],
+	"usage.listUsageEvents": [
+		{
+			"kind": "Usage",
+			"action": "read"
+		}
+	],
+	"usage.getCredits": [
+		{
+			"kind": "Usage",
+			"action": "read"
+		}
+	],
+	"budgets.listBudgets": [
+		{
+			"kind": "Budget",
+			"action": "read"
+		}
+	],
+	"budgets.createBudget": [
+		{
+			"kind": "Budget",
+			"action": "write"
+		}
+	],
+	"budgets.getBudget": [
+		{
+			"kind": "Budget",
+			"action": "read"
+		}
+	],
+	"budgets.updateBudget": [
+		{
+			"kind": "Budget",
+			"action": "write"
+		}
+	],
+	"budgets.deleteBudget": [
+		{
+			"kind": "Budget",
+			"action": "write"
+		}
+	],
+	"platform.getPlatformSettings": [
+		{
+			"kind": "Platform",
+			"action": "read"
+		}
+	],
+	"platform.updatePlatformSettings": [
+		{
+			"kind": "Platform",
+			"action": "write"
+		}
+	],
+	"platform.listPlatformOrganizations": [
+		{
+			"kind": "Platform",
+			"action": "read"
+		}
+	],
+	"platform.updatePlatformOrganization": [
+		{
+			"kind": "Platform",
+			"action": "write"
+		}
+	],
+	"platform.listPlatformAdmins": [
+		{
+			"kind": "Platform",
+			"action": "read"
+		}
+	],
+	"platform.addPlatformAdmin": [
+		{
+			"kind": "Platform",
+			"action": "write"
+		}
+	],
+	"platform.removePlatformAdmin": [
+		{
+			"kind": "Platform",
+			"action": "write"
+		}
+	],
+	"platform.listPlatformModels": [
+		{
+			"kind": "Platform",
+			"action": "read"
+		}
+	],
+	"platform.getPlatformModel": [
+		{
+			"kind": "Platform",
+			"action": "read"
+		}
+	],
+	"platform.createPlatformModel": [
+		{
+			"kind": "Platform",
+			"action": "write"
+		}
+	],
+	"platform.updatePlatformModel": [
+		{
+			"kind": "Platform",
+			"action": "write"
+		}
+	],
+	"platform.deletePlatformModel": [
+		{
+			"kind": "Platform",
+			"action": "write"
+		}
+	],
+	"platform.listPlatformModelProviders": [
+		{
+			"kind": "Platform",
+			"action": "read"
+		}
+	],
+	"platform.getPlatformModelProvider": [
+		{
+			"kind": "Platform",
+			"action": "read"
+		}
+	],
+	"platform.createPlatformModelProvider": [
+		{
+			"kind": "Platform",
+			"action": "write"
+		}
+	],
+	"platform.updatePlatformModelProvider": [
+		{
+			"kind": "Platform",
+			"action": "write"
+		}
+	],
+	"platform.listPlatformModelPrices": [
+		{
+			"kind": "Platform",
+			"action": "read"
+		}
+	],
+	"platform.setPlatformModelPrice": [
+		{
+			"kind": "Platform",
+			"action": "write"
+		}
+	],
+	"platform.getPlatformOrganizationCredits": [
+		{
+			"kind": "Platform",
+			"action": "read"
+		}
+	],
+	"platform.deletePlatformModelProvider": [
+		{
+			"kind": "Platform",
+			"action": "write"
+		}
+	],
+	"organization.getOrganization": [
+		{
+			"kind": "Organization",
+			"action": "read"
+		}
+	],
+	"organization.updateOrganization": [
+		{
+			"kind": "Organization",
+			"action": "write"
+		}
+	],
+	"organization.listMembers": [
+		{
+			"kind": "Member",
+			"action": "read"
+		}
+	],
+	"organization.getMember": [
+		{
+			"kind": "Member",
+			"action": "read"
+		}
+	],
+	"organization.updateMember": [
+		{
+			"kind": "Member",
+			"action": "write"
+		}
+	],
+	"organization.removeMember": [
+		{
+			"kind": "Member",
+			"action": "write"
+		}
+	],
+	"organization.listInvitations": [
+		{
+			"kind": "Member",
+			"action": "read"
+		}
+	],
+	"organization.createInvitation": [
+		{
+			"kind": "Member",
+			"action": "write"
+		}
+	],
+	"organization.revokeInvitation": [
+		{
+			"kind": "Member",
+			"action": "write"
+		}
+	],
+	"organization.listResources": [
+		{
+			"kind": "Organization",
+			"action": "read"
+		}
+	],
+	"organization.getSettings": [
+		{
+			"kind": "Organization",
+			"action": "read"
+		}
+	],
+	"organization.updateSettings": [
+		{
+			"kind": "Organization",
+			"action": "write"
+		}
+	],
+	"organization.listRoles": [
+		{
+			"kind": "Organization",
+			"action": "read"
+		}
+	],
+	"organization.getRole": [
+		{
+			"kind": "Organization",
+			"action": "read"
+		}
+	],
+	"organization.createRole": [
+		{
+			"kind": "Role",
+			"action": "write"
+		}
+	],
+	"organization.updateRole": [
+		{
+			"kind": "Role",
+			"action": "write"
+		}
+	],
+	"organization.deleteRole": [
+		{
+			"kind": "Role",
+			"action": "write"
+		}
+	],
+	"organization.listAuditLogs": [
+		{
+			"kind": "AuditLog",
+			"action": "read"
+		}
+	],
+	"modelProviders.listModels": [
+		{
+			"kind": "ModelProvider",
+			"action": "read"
+		}
+	],
+	"modelProviders.getModel": [
+		{
+			"kind": "ModelProvider",
+			"action": "read"
+		}
+	],
+	"modelProviders.createModel": [
+		{
+			"kind": "ModelProvider",
+			"action": "write"
+		}
+	],
+	"modelProviders.updateModel": [
+		{
+			"kind": "ModelProvider",
+			"action": "write"
+		}
+	],
+	"modelProviders.deleteModel": [
+		{
+			"kind": "ModelProvider",
+			"action": "write"
+		}
+	],
+	"modelProviders.listModelProviders": [
+		{
+			"kind": "ModelProvider",
+			"action": "read"
+		}
+	],
+	"modelProviders.getModelProvider": [
+		{
+			"kind": "ModelProvider",
+			"action": "read"
+		}
+	],
+	"modelProviders.createModelProvider": [
+		{
+			"kind": "ModelProvider",
+			"action": "write"
+		}
+	],
+	"modelProviders.updateModelProvider": [
+		{
+			"kind": "ModelProvider",
+			"action": "write"
+		}
+	],
+	"modelProviders.deleteModelProvider": [
+		{
+			"kind": "ModelProvider",
+			"action": "write"
+		}
+	],
+	"modelProviders.listModelPrices": [
+		{
+			"kind": "ModelProvider",
+			"action": "read"
+		}
+	],
+	"modelProviders.setModelPrice": [
+		{
+			"kind": "ModelProvider",
+			"action": "write"
+		}
+	],
+	"sso.listDomains": [
+		{
+			"kind": "Sso",
+			"action": "read"
+		}
+	],
+	"sso.addDomain": [
+		{
+			"kind": "Sso",
+			"action": "write"
+		}
+	],
+	"sso.verifyDomain": [
+		{
+			"kind": "Sso",
+			"action": "write"
+		}
+	],
+	"sso.removeDomain": [
+		{
+			"kind": "Sso",
+			"action": "write"
+		}
+	],
+	"sso.listSsoConnections": [
+		{
+			"kind": "Sso",
+			"action": "read"
+		}
+	],
+	"sso.getSsoConnection": [
+		{
+			"kind": "Sso",
+			"action": "read"
+		}
+	],
+	"sso.createSsoConnection": [
+		{
+			"kind": "Sso",
+			"action": "write"
+		}
+	],
+	"sso.updateSsoConnection": [
+		{
+			"kind": "Sso",
+			"action": "write"
+		}
+	],
+	"sso.deleteSsoConnection": [
+		{
+			"kind": "Sso",
+			"action": "write"
+		}
+	]
+}

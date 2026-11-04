@@ -1,0 +1,26 @@
+{
+	"name": "@kaicom/kay-openbot",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"description": "Pinned native OpenBot SDK bridge for Kay",
+	"sideEffects": false,
+	"files": [
+		"dist"
+	],
+	"exports": {
+		".": "./dist/index.js"
+	},
+	"scripts": {
+		"build": "tsdown",
+		"test": "tsc -p tsconfig.test.json && node --test test/*.test.ts",
+		"generate:features": "node scripts/generate-features.mjs && prettier --write src/FeatureDispatch.ts src/FeatureCatalog.json src/FeaturePermissions.json"
+	},
+	"dependencies": {
+		"@kaicom/kay-contracts": "workspace:*",
+		"@openbot-build/client": "file:../../vendor/openbot-client-29155b1.tgz",
+		"effect": "4.0.6",
+		"@effect/platform-node": "4.0.6"
+	},
+	"license": "MIT"
+}

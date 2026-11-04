@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 64" color="#FFFFFF">
+  <g transform="translate(0 0)">
+    <path fill="currentColor" d="M8 8H24V24H32V8H56V24H40V40H56V56H32V40H24V56H8Z"/>
+  </g>
+  <g transform="translate(56 0)">
+    <path fill="currentColor" fill-rule="evenodd" d="M16 8H48V24H56V56H40V40H24V56H8V24H16V8ZM24 24V32H40V24H24Z"/>
+  </g>
+  <g transform="translate(96 0)">
+    <path fill="currentColor" d="M24 8H40V56H24Z"/>
+  </g>
+</svg>

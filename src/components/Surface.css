@@ -1,0 +1,95 @@
+.surface-title-row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	min-width: 0;
+}
+.surface-title-row [data-mascot-anchor="sidebar"] {
+	--mascot-size: 44px;
+}
+.surface-title-row [data-slot="sheet-title"] {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+.surface-header[data-has-title-leading] > [data-slot="sheet-description"] {
+	margin-inline-start: 56px;
+}
+
+/* ChatHistoryDrawer.swift: left history, independently scrolling rows. */
+.sheet-panel[data-presentation="sidebar"] {
+	transform: translateX(var(--drawer-swipe-movement-x, 0px));
+	transition: transform 380ms cubic-bezier(0.2, 0.8, 0.2, 1);
+	box-shadow: 14px 0 24px rgb(0 0 0 / 35%);
+	padding-block-start: env(safe-area-inset-top);
+}
+.sheet-panel[data-presentation="sidebar"][data-starting-style],
+.sheet-panel[data-presentation="sidebar"][data-ending-style] {
+	transform: translateX(-100%);
+}
+.sheet-panel[data-presentation="sidebar"][data-swiping] {
+	transition: none;
+}
+.sheet-sidebar-dismiss {
+	background: rgb(0 0 0 / 58%);
+	backdrop-filter: none;
+}
+.sheet-sidebar-close[data-slot="sheet-close"] {
+	position: absolute;
+	top: calc(env(safe-area-inset-top) + 8px);
+	right: 8px;
+	width: var(--native-control-size);
+	height: var(--native-control-size);
+}
+.sheet-panel[data-presentation="sidebar"] .surface-header {
+	padding: 8px 60px 8px 18px;
+}
+.sheet-panel[data-presentation="sidebar"] [data-slot="sheet-title"] {
+	font-size: 17px;
+	font-weight: 500;
+}
+.sheet-panel[data-presentation="sidebar"] .surface-body {
+	padding: 0 18px max(8px, env(safe-area-inset-bottom));
+	overflow: hidden;
+}
+.sheet-panel[data-presentation="sidebar"] .surface-body-inner {
+	margin-top: 0;
+}
+.sheet-panel[data-presentation="sidebar"]
+	:is(.surface-body-inner, .navigation-surface, .companion-navigation) {
+	min-height: 0;
+	flex: 1;
+}
+.sheet-panel[data-presentation="sidebar"] .companion-list {
+	min-height: 0;
+	max-height: none;
+	flex: 1;
+	overflow-y: auto;
+}
+.sheet-panel[data-presentation="sidebar"] .navigation-footer {
+	margin-block-start: auto;
+}
+body:has(.sheet-panel[data-presentation="sidebar"]) .workbench[data-active] {
+	transform: none;
+}
+@media (max-height: 540px) {
+	.sheet-panel[data-presentation="sidebar"] .surface-body {
+		overflow-y: auto;
+	}
+	.sheet-panel[data-presentation="sidebar"]
+		:is(
+			.surface-body-inner,
+			.navigation-surface,
+			.companion-navigation,
+			.companion-list
+		) {
+		flex: none;
+	}
+	.sheet-panel[data-presentation="sidebar"] .companion-list {
+		overflow: visible;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.sheet-panel[data-presentation="sidebar"] {
+		transition: none;
+	}
+}

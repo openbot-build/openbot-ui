@@ -1,0 +1,25 @@
+{
+	"name": "@kaicom/e-client",
+	"version": "0.1.0",
+	"type": "module",
+	"description": "Shared typed Platform API client for browser and desktop applications",
+	"sideEffects": false,
+	"exports": {
+		".": "./dist/index.js"
+	},
+	"files": [
+		"dist",
+		"src",
+		"README.md"
+	],
+	"scripts": {
+		"build": "tsdown"
+	},
+	"dependencies": {
+		"@kaicom/e-platform-api": "workspace:*",
+		"effect": "4.0.5",
+		"@kaicom/k": "workspace:*",
+		"@modelcontextprotocol/client": "2.3.1"
+	},
+	"license": "MIT"
+}

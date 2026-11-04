@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 		<meta name="color-scheme" content="dark light" />
 		<link rel="icon" href="/favicon.ico" />
 		<link rel="manifest" href="/manifest.json" />
@@ -11,7 +11,7 @@
 			// Set the theme before the page paints, so a dark page does not flash white.
 			;(() => {
 				try {
-					const theme = localStorage.getItem("openbot.theme") || "dark"
+					const theme = localStorage.getItem("openbot.theme") || "system"
 					const dark =
 						theme === "dark" ||
 						(theme === "system" &&
@@ -19,7 +19,7 @@
 					document.documentElement.classList.toggle("dark", dark)
 					document.documentElement.style.colorScheme = dark ? "dark" : "light"
 				} catch {
-					document.documentElement.classList.add("dark")
+					document.documentElement.style.colorScheme = "light dark"
 				}
 			})()
 		</script>

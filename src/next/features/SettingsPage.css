@@ -1,0 +1,245 @@
+.kay-settings-page {
+	width: min(100%, 1080px);
+	margin-inline: auto;
+	padding: 32px 40px 64px;
+	min-width: 0;
+}
+.kay-settings-page > .next-page-heading {
+	margin-bottom: 32px;
+}
+.kay-settings-layout {
+	display: grid;
+	grid-template-columns: 180px minmax(0, 1fr);
+	gap: 36px;
+	align-items: start;
+}
+.kay-settings-nav {
+	display: grid;
+	gap: 5px;
+	position: sticky;
+	top: 24px;
+}
+.kay-settings-nav > button {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px 14px;
+	border-radius: 13px;
+	text-align: left;
+	font-size: 14px;
+	color: var(--muted-foreground);
+	min-width: 0;
+}
+.kay-settings-nav > button:hover,
+.kay-settings-nav > button[aria-current="page"] {
+	background: var(--accent);
+	color: var(--foreground);
+}
+.kay-settings-nav > button:focus-visible,
+.kay-settings-link:focus-visible,
+.kay-appearance-options > button:focus-visible {
+	outline: 2px solid var(--ring);
+	outline-offset: 3px;
+}
+.kay-settings-content {
+	display: grid;
+	gap: 22px;
+	min-width: 0;
+}
+.kay-settings-card {
+	padding: 26px;
+	border: 1px solid var(--border);
+	border-radius: 20px;
+	background: var(--background);
+	min-width: 0;
+}
+.kay-settings-card h2 {
+	font-size: 17px;
+	font-weight: 560;
+	line-height: 1.5;
+}
+.kay-settings-card-title {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 10px;
+}
+.kay-settings-card-title h2 {
+	flex: 1;
+}
+.kay-settings-account-name {
+	font-size: 20px;
+	font-weight: 550;
+	margin: 17px 0 6px;
+}
+.kay-settings-description,
+.kay-settings-empty {
+	font-size: 13px;
+	line-height: 1.75;
+	color: var(--muted-foreground);
+	margin-top: 9px;
+}
+.kay-settings-empty {
+	padding: 22px 0;
+}
+.kay-appearance-options {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 10px;
+	margin: 22px 0;
+}
+.kay-appearance-options > button {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	border: 1px solid var(--border);
+	border-radius: 15px;
+	padding: 20px 12px;
+	font-size: 13px;
+}
+.kay-appearance-options > button[aria-pressed="true"] {
+	border-color: var(--foreground);
+	background: var(--accent);
+}
+.kay-settings-language {
+	border-top: 1px solid var(--border);
+	padding-top: 22px;
+}
+.kay-settings-link {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+	padding: 19px 0;
+	text-align: left;
+	border-bottom: 1px solid var(--border);
+}
+.kay-settings-link:last-child {
+	border-bottom: 0;
+	padding-bottom: 0;
+}
+.kay-settings-link strong {
+	font-size: 14px;
+	font-weight: 520;
+	display: block;
+}
+.kay-settings-link small {
+	font-size: 12px;
+	color: var(--muted-foreground);
+	display: block;
+	margin-top: 6px;
+	line-height: 1.6;
+}
+.kay-settings-link > svg {
+	color: var(--muted-foreground);
+	flex-shrink: 0;
+}
+.kay-memory-list {
+	padding: 0;
+	margin: 18px 0;
+	list-style: none;
+}
+.kay-memory-list > li {
+	display: flex;
+	gap: 12px;
+	align-items: start;
+	flex-wrap: wrap;
+	padding: 16px 0;
+	border-bottom: 1px solid var(--border);
+}
+.kay-memory-list > li > p {
+	flex: 1;
+	min-width: 0;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	font-size: 14px;
+	line-height: 1.7;
+}
+.kay-memory-form {
+	display: grid;
+	gap: 12px;
+	padding-top: 18px;
+}
+.kay-memory-form label {
+	font-size: 13px;
+	font-weight: 500;
+}
+.kay-memory-form textarea {
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	padding: 13px;
+	resize: vertical;
+	min-height: 96px;
+	width: 100%;
+	font-size: 14px;
+	background: var(--background);
+	color: var(--foreground);
+}
+.kay-memory-form textarea:focus-visible {
+	outline: 2px solid var(--ring);
+	outline-offset: 2px;
+}
+.kay-memory-form > button {
+	justify-self: start;
+}
+.kay-memory-confirm {
+	flex-basis: 100%;
+	background: var(--accent);
+	padding: 15px;
+	border-radius: 12px;
+	font-size: 13px;
+	line-height: 1.6;
+}
+.kay-memory-confirm > div {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	margin-top: 14px;
+}
+.kay-settings-notice {
+	font-size: 13px;
+	line-height: 1.6;
+	color: var(--muted-foreground);
+}
+@media (max-width: 760px) {
+	.kay-settings-page {
+		padding: 22px 18px 40px;
+	}
+	.kay-settings-page > .next-page-heading {
+		margin-bottom: 22px;
+	}
+	.kay-settings-layout {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 22px;
+	}
+	.kay-settings-nav {
+		position: static;
+		display: flex;
+		overflow-x: auto;
+		gap: 5px;
+		scrollbar-width: none;
+	}
+	.kay-settings-nav > button {
+		white-space: nowrap;
+		flex-shrink: 0;
+		padding: 10px 13px;
+		gap: 8px;
+	}
+	.kay-settings-card {
+		padding: 21px;
+		border-radius: 18px;
+	}
+	.kay-settings-content {
+		gap: 18px;
+	}
+	.kay-appearance-options > button {
+		padding: 17px 8px;
+	}
+	.kay-settings-language section {
+		flex-wrap: wrap;
+		gap: 12px;
+	}
+}

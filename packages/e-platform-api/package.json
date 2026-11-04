@@ -1,0 +1,30 @@
+{
+	"name": "@kaicom/e-platform-api",
+	"version": "0.1.0",
+	"type": "module",
+	"description": "Typed REST API contract for the e platform",
+	"sideEffects": false,
+	"files": [
+		"dist",
+		"src",
+		"README.md"
+	],
+	"exports": {
+		".": "./dist/index.js"
+	},
+	"scripts": {
+		"build": "tsdown"
+	},
+	"peerDependencies": {
+		"effect": "4.0.5"
+	},
+	"devDependencies": {
+		"effect": "4.0.5"
+	},
+	"dependencies": {
+		"@kaicom/e-core": "workspace:*",
+		"@kaicom/e-plugin-memory": "workspace:*",
+		"@kaicom/k": "workspace:*"
+	},
+	"license": "MIT"
+}

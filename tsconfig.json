@@ -1,13 +1,25 @@
 {
-	"include": ["src", "vite.config.ts"],
+	"include": [
+		"src",
+		"vite.config.ts"
+	],
 	"compilerOptions": {
-		"target": "ES2023",
+		"target": "ES2024",
 		"jsx": "react-jsx",
 		"module": "ESNext",
-		"lib": ["ES2023", "DOM", "DOM.Iterable"],
-		"types": ["vite/client", "node"],
+		"lib": [
+			"ES2024",
+			"DOM",
+			"DOM.Iterable"
+		],
+		"types": [
+			"vite/client",
+			"node"
+		],
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": [
+				"./src/*"
+			]
 		},
 		"moduleResolution": "bundler",
 		"allowImportingTsExtensions": true,

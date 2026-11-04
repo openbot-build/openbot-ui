@@ -1,0 +1,24 @@
+{
+	"name": "@kaicom/e-plugin-memory",
+	"version": "0.1.0",
+	"type": "module",
+	"description": "Versioned Session memory and mutual merge negotiation",
+	"sideEffects": false,
+	"files": [
+		"dist",
+		"src",
+		"README.md"
+	],
+	"exports": {
+		".": "./dist/index.js"
+	},
+	"scripts": {
+		"build": "tsdown",
+		"test": "pnpm build && tsc -p tsconfig.test.json && node --test test/*.test.ts"
+	},
+	"dependencies": {
+		"@kaicom/e-core": "workspace:*",
+		"effect": "4.0.5"
+	},
+	"license": "MIT"
+}

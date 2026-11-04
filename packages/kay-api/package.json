@@ -1,0 +1,42 @@
+{
+	"name": "@kaicom/kay-api",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"description": "Kay product API and platform compatibility",
+	"files": [
+		"dist",
+		"migrations"
+	],
+	"exports": {
+		".": "./dist/index.js",
+		"./BasicComputeBrokerMain": "./dist/BasicComputeBrokerMain.js",
+		"./Main": "./dist/Main.js",
+		"./Migrate": "./dist/Migrate.js",
+		"./Readiness": "./dist/Readiness.js"
+	},
+	"scripts": {
+		"build": "tsdown",
+		"start": "node dist/Main.js",
+		"start:basic-compute": "node dist/BasicComputeBrokerMain.js",
+		"migrate": "node dist/Migrate.js",
+		"test": "tsc -p tsconfig.test.json && node --test test/*.test.ts",
+		"test:integration:native": "node --test test/NativeWorkspace.integration.mjs test/FeedbackNative.integration.mjs"
+	},
+	"dependencies": {
+		"@kaicom/k": "workspace:*",
+		"@kaicom/kay-contracts": "workspace:*",
+		"effect": "4.0.5",
+		"@kaicom/e-platform-api": "workspace:*",
+		"@kaicom/e-core": "workspace:*",
+		"@effect/sql-pg": "4.0.5",
+		"@effect/platform-node": "4.0.5",
+		"pg": "8.23.1",
+		"@kaicom/kay-openbot": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/pg": "8.23.1",
+		"@kaicom/e-client": "workspace:*"
+	},
+	"license": "MIT"
+}

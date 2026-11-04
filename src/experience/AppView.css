@@ -1,0 +1,35 @@
+.app-view {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+.app-view-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	margin-block-end: 0.75rem;
+}
+.app-view-frame {
+	block-size: min(360px, 60dvh);
+	max-block-size: max(160px, calc(100dvh - 8rem));
+	min-block-size: 160px;
+}
+.app-view-frame iframe {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	border: 0;
+}
+.app-view[data-mode="fullscreen"] {
+	position: fixed;
+	inset: 0;
+	z-index: 40;
+	inline-size: 100%;
+	block-size: 100dvh;
+	overflow: auto;
+}
+.app-view[data-mode="fullscreen"] .app-view-frame {
+	block-size: calc(100dvh - 7rem) !important;
+	max-block-size: none;
+}

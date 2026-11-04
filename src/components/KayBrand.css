@@ -1,0 +1,50 @@
+.workbench-brand {
+	display: flex;
+	flex: none;
+	align-items: center;
+	gap: 8px;
+	padding-inline-start: 12px;
+	color: var(--foreground);
+}
+.workbench-brand-label {
+	display: block;
+	flex: none;
+	width: 54px;
+	height: 24px;
+	background: currentColor;
+	mask: url("/kay/kai-square-white.svg") center / contain no-repeat;
+	-webkit-mask: url("/kay/kai-square-white.svg") center / contain no-repeat;
+}
+.workbench-title-slot {
+	position: relative;
+	display: flex;
+	flex: none;
+	width: 44px;
+	height: 48px;
+	align-items: center;
+	justify-content: center;
+}
+.workbench-title-name {
+	display: block;
+	width: 41.312px;
+	height: 24px;
+	overflow: visible;
+	font-family: "DM Sans Variable", "DM Sans", sans-serif;
+	font-weight: 500;
+	letter-spacing: normal;
+	transition: opacity 120ms ease-out;
+}
+html[data-kay-title-occupied="true"] .workbench-title-name {
+	opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+	.workbench-title-name {
+		transition: none;
+	}
+}
+.workbench-kay-anchor[data-mascot-anchor="header"] {
+	position: absolute;
+	top: 0;
+	left: -2px;
+	--mascot-size: 48px;
+}

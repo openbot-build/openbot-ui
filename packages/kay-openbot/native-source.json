@@ -1,0 +1,27 @@
+{
+	"sourceRevision": "ef02e7b76a85d2518a407a0bd391714726c0066c",
+	"version": "0.1.0-kay.ef02e7b76a85",
+	"registry": "https://gitlab.kai.com/api/v4/projects/202/packages/npm/",
+	"packages": [
+		{
+			"name": "@openbot-build/core",
+			"sha256": "d4c7993e5587dd352f8214b78edbed7361ca4b69441ec1c779a3c45bd85c0870",
+			"sha1": "281ebd9f8df32f027c8feef10d3ebd88780d0a5c"
+		},
+		{
+			"name": "@openbot-build/protocol",
+			"sha256": "7d0c6d676b26b07e5b5570418804e480b6eae28d6c014436af7face3d81ad650",
+			"sha1": "df861e5a45ee6bbdf1c9ad2a1498f0e2d0035aa3"
+		},
+		{
+			"name": "@openbot-build/api",
+			"sha256": "ade7a5d00338457a61ffb5bd7d6f74695dc17ef930f3e6049ec6bc6b0a95093b",
+			"sha1": "a167b4b59f491abf8978235438bcefde8285f99d"
+		},
+		{
+			"name": "@openbot-build/client",
+			"sha256": "c27d62bc18107d4a00539187b512039c4d53b7a11f95c503a833562c8ef0af59",
+			"sha1": "1806a94e2632900ef897c0cb523f264f5a616516"
+		}
+	]
+}

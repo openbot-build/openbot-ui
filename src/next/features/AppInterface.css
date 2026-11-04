@@ -1,0 +1,34 @@
+.next-app-interface[data-mode="fullscreen"] {
+	box-sizing: border-box;
+	background: var(--background);
+	padding: max(1rem, env(safe-area-inset-top))
+		max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom))
+		max(1rem, env(safe-area-inset-left));
+}
+
+.next-app-interface .app-view-toolbar > span:first-child {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	min-width: 0;
+}
+
+/* The fixed App owns scrolling while open; its title is outside these slots. */
+.next-content:has(.next-app-interface[data-mode="fullscreen"]),
+.next-inspector-content:has(.next-app-interface[data-mode="fullscreen"]) {
+	overflow: visible;
+}
+
+/* A full-screen App owns the visible title slot; keep the shared mascot inside it. */
+body:has(.next-app-interface[data-mode="fullscreen"]) .kay-mascot-anchor {
+	visibility: hidden;
+}
+
+body:has(.next-app-interface[data-mode="fullscreen"])
+	.next-app-interface[data-mode="fullscreen"]
+	.kay-mascot-anchor,
+body:has(.next-app-interface[data-mode="fullscreen"])
+	[role="dialog"]
+	.kay-mascot-anchor {
+	visibility: visible;
+}

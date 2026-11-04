@@ -1,7 +1,11 @@
 { pkgs, multiverse, ... }:
 {
   devenv.warnOnNewVersion = false;
-  packages = with pkgs; [ git corepack ];
+  dotenv = {
+    enable = true;
+    filename = ".env.development";
+  };
+  packages = with pkgs; [ git corepack postgresql_18 openssl ];
   languages.javascript = {
     enable = true;
     lsp.enable = false;

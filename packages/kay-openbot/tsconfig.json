@@ -1,0 +1,17 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"noEmit": false,
+		"resolveJsonModule": true,
+		"rootDir": "src",
+		"outDir": "dist",
+		"rewriteRelativeImportExtensions": true,
+		"tsBuildInfoFile": ".cache/.tsbuildinfo"
+	},
+	"include": ["src", "src/**/*.json"],
+	"references": [
+		{
+			"path": "../kay-contracts"
+		}
+	]
+}
