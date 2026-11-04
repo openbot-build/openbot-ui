@@ -23,6 +23,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { Spinner } from "@/components/ui/spinner"
 import { accountAtom, createOrganizationAtom } from "@/atoms/account"
 import { AppSidebar } from "@/components/app/AppSidebar"
+import { ConnectionSettings } from "@/components/app/ConnectionSettings"
 import { SearchDialog } from "@/components/app/SearchDialog"
 import { SettingsDialog } from "@/components/app/SettingsDialog"
 import { Shortcuts } from "@/components/app/Shortcuts"
@@ -74,7 +75,7 @@ export function AppLayout() {
 				/>
 			)
 		return (
-			<Empty className="min-h-svh">
+			<Empty className="min-h-(--app-height)">
 				<EmptyHeader>
 					<EmptyTitle>OpenBot is not reachable</EmptyTitle>
 					<EmptyDescription>{errorMessage(account.cause)}</EmptyDescription>
@@ -83,6 +84,7 @@ export function AppLayout() {
 					<Button onClick={() => globalThis.location.reload()}>
 						Try again
 					</Button>
+					<ConnectionSettings />
 				</EmptyContent>
 			</Empty>
 		)
@@ -93,7 +95,7 @@ export function AppLayout() {
 	return (
 		<SidebarProvider defaultOpen={sidebarOpen()}>
 			<AppSidebar />
-			<SidebarInset className="h-svh min-w-0 overflow-hidden">
+			<SidebarInset className="h-(--app-height) min-w-0 overflow-hidden">
 				<Outlet />
 			</SidebarInset>
 			<SearchDialog />
@@ -105,7 +107,7 @@ export function AppLayout() {
 
 function FullPageSpinner() {
 	return (
-		<div className="flex min-h-svh items-center justify-center">
+		<div className="flex min-h-(--app-height) items-center justify-center">
 			<Spinner className="size-6 text-muted-foreground" />
 		</div>
 	)
@@ -117,7 +119,7 @@ function NoOrganization() {
 	const [name, setName] = useState("")
 	const [busy, setBusy] = useState(false)
 	return (
-		<Empty className="min-h-svh">
+		<Empty className="min-h-(--app-height)">
 			<EmptyHeader>
 				<EmptyMedia variant="icon">
 					<Building2Icon />
@@ -152,6 +154,7 @@ function NoOrganization() {
 						{busy ? <Spinner /> : null} Create
 					</Button>
 				</form>
+				<ConnectionSettings />
 			</EmptyContent>
 		</Empty>
 	)

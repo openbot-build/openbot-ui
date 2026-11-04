@@ -35,6 +35,7 @@ import { resultValue } from "@/lib/utils"
 
 const kindLabel: Record<ChatSummary["chat"]["kind"], string | undefined> = {
 	direct: undefined,
+	conversation: "Conversation",
 	channel: "Channel",
 	task: "Task",
 	review: "Review",

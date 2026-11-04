@@ -21,18 +21,15 @@ import { Input } from "@/components/ui/input"
 import { Spinner } from "@/components/ui/spinner"
 import { developmentSignIn, signInAtom } from "@/atoms/account"
 import { LogoMark } from "@/components/app/Logo"
+import { ConnectionSettings } from "@/components/app/ConnectionSettings"
 import { errorMessage } from "@/lib/api"
-
-/** A same-origin path to come back to. Other values go to the start page. */
-const safeReturn = (value: string | null) =>
-	value !== null && value.startsWith("/") && !value.startsWith("//")
-		? value
-		: "/"
+import { nativeRuntime, returnPath } from "@/lib/runtime"
 
 /** The sign-in page. OpenBot finds the sign-in provider from the email. */
 export function SignInPage() {
+	const localSignIn = nativeRuntime()?.developmentSignIn === true
 	const [params] = useSearchParams()
-	const returnTo = safeReturn(params.get("returnTo"))
+	const returnTo = returnPath(params.get("returnTo"))
 	const signIn = useAtomSet(signInAtom, { mode: "promise" })
 	const [email, setEmail] = useState("")
 	const [busy, setBusy] = useState(false)
@@ -42,14 +39,14 @@ export function SignInPage() {
 	}
 
 	return (
-		<main className="flex min-h-svh flex-col items-center justify-center gap-8 bg-background p-4">
+		<main className="flex min-h-(--app-height) flex-col items-center justify-center gap-8 bg-background p-4">
 			<div className="flex items-center gap-2.5 text-2xl font-semibold tracking-tight">
 				<LogoMark className="size-8" /> OpenBot
 			</div>
 			<Card className="w-full max-w-sm">
 				<CardHeader className="text-center">
 					<CardTitle className="text-lg">Welcome</CardTitle>
-					<CardDescription>Sign in to work with your Bots.</CardDescription>
+					<CardDescription>{localSignIn ? "Use the test account on your local OpenBot service." : "Sign in to work with your Bots."}</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<form
@@ -60,7 +57,7 @@ export function SignInPage() {
 						}}
 					>
 						<FieldGroup>
-							<Field>
+							{!localSignIn ? <Field>
 								<FieldLabel htmlFor="email">Work email</FieldLabel>
 								<Input
 									id="email"
@@ -74,13 +71,13 @@ export function SignInPage() {
 									Your organization may use its own sign-in. We find it from
 									your email.
 								</FieldDescription>
-							</Field>
+							</Field> : null}
 							<Field>
 								<Button type="submit" size="lg" disabled={busy}>
-									{busy ? <Spinner /> : null} Continue
+									{busy ? <Spinner /> : null} {localSignIn ? "Sign in to the test account" : "Continue"}
 								</Button>
 							</Field>
-							{import.meta.env.DEV ? (
+							{import.meta.env.DEV && !nativeRuntime() ? (
 								<>
 									<FieldSeparator>Development</FieldSeparator>
 									<Field>
@@ -103,6 +100,7 @@ export function SignInPage() {
 					</form>
 				</CardContent>
 			</Card>
+			<ConnectionSettings />
 		</main>
 	)
 }

@@ -56,6 +56,7 @@ import { type SettingsTab, settingsTabAtom } from "@/atoms/ui"
 import { useCopy } from "@/hooks/use-copy"
 import { errorMessage, organizationAtom } from "@/lib/api"
 import { resultValue } from "@/lib/utils"
+import { ConnectionSettings } from "@/components/app/ConnectionSettings"
 
 /** The settings of the person: the look, the account and the user tokens. */
 export function SettingsDialog() {
@@ -67,7 +68,7 @@ export function SettingsDialog() {
 				if (!open) setTab(undefined)
 			}}
 		>
-			<DialogContent className="max-h-[85svh] overflow-y-auto sm:max-w-2xl">
+			<DialogContent className="sm:max-w-2xl">
 				<DialogHeader>
 					<DialogTitle className="text-base">Settings</DialogTitle>
 					<DialogDescription className="sr-only">
@@ -113,6 +114,7 @@ function GeneralSettings() {
 		account?.memberships.filter((item) => item.status === "active") ?? []
 	return (
 		<FieldGroup>
+			<ConnectionSettings />
 			<Field orientation="horizontal">
 				<FieldLabel>Theme</FieldLabel>
 				<Select

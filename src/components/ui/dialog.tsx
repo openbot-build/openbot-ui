@@ -1,12 +1,20 @@
 import * as React from "react"
+import { useBackDismiss } from "@/hooks/use-back-dismiss"
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 import { cn } from "cn"
 
 import { Button } from "@/components/ui/button"
 import { XIcon } from "lucide-react"
 
-function Dialog({ ...props }: DialogPrimitive.Root.Props) {
-	return <DialogPrimitive.Root data-slot="dialog" {...props} />
+function Dialog(props: DialogPrimitive.Root.Props) {
+	const localActions = React.useRef<DialogPrimitive.Root.Actions | null>(null)
+	const actions = props.actionsRef ?? localActions
+	const [open, setOpen] = React.useState(props.defaultOpen ?? false)
+	useBackDismiss(props.open ?? open, actions)
+	return <DialogPrimitive.Root data-slot="dialog" {...props} actionsRef={actions} onOpenChange={(next, details) => {
+		props.onOpenChange?.(next, details)
+		if (!details.isCanceled) setOpen(next)
+	}} />
 }
 
 function DialogTrigger({ ...props }: DialogPrimitive.Trigger.Props) {
@@ -52,7 +60,7 @@ function DialogContent({
 				data-slot="dialog-content"
 				data-close-button={showCloseButton || undefined}
 				className={cn(
-					"group/dialog-content fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-screen bg-popover p-(--corner-inset) text-xs/relaxed text-popover-foreground duration-100 outline-none sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+					"group/dialog-content fixed top-(--dialog-top) left-(--dialog-left) z-50 grid w-full max-w-[calc(100%-2rem-var(--safe-left)-var(--safe-right))] max-h-(--dialog-height) overflow-y-auto -translate-x-1/2 -translate-y-1/2 gap-4 rounded-screen bg-popover p-(--corner-inset) text-xs/relaxed text-popover-foreground duration-100 outline-none sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
 					className,
 				)}
 				{...props}

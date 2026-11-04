@@ -10,7 +10,7 @@ import tailwindcss from "@tailwindcss/vite"
 const apiOrigin = process.env.OPENBOT_DEV_PUBLIC_ORIGIN ?? "http://localhost"
 
 const proxy = {
-	target: apiOrigin,
+	target: process.env.OPENBOT_DEV_API_ORIGIN ?? apiOrigin,
 	// The devenv proxy finds the server by the host name.
 	changeOrigin: true,
 	// OpenBot accepts writes and WebSockets with the session cookie only from its
@@ -21,6 +21,7 @@ const proxy = {
 export default defineConfig({
 	resolve: { tsconfigPaths: true },
 	plugins: [tailwindcss(), react()],
+	build: { license: { fileName: "licenses/dependencies.md" } },
 	server: {
 		port: 5173,
 		// `ws` also sends the Live WebSocket of a live Chat to OpenBot.

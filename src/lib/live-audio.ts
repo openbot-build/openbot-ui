@@ -62,7 +62,9 @@ export const startCapture = async (
 	context: AudioContext,
 	targetRate: number,
 	onChunk: (chunk: ArrayBuffer) => void,
+	signal?: AbortSignal,
 ): Promise<Capture> => {
+	signal?.throwIfAborted()
 	const stream = await navigator.mediaDevices.getUserMedia({
 		audio: {
 			channelCount: 1,
@@ -71,7 +73,25 @@ export const startCapture = async (
 			autoGainControl: true,
 		},
 	})
+	let source: MediaStreamAudioSourceNode | undefined
+	let node: AudioWorkletNode | undefined
+	let stopped = false
+	const stop = () => {
+		if (stopped) return
+		stopped = true
+		signal?.removeEventListener("abort", stop)
+		for (const track of stream.getTracks()) track.stop()
+		if (node) {
+			node.port.onmessage = null
+			node.port.close()
+			node.disconnect()
+		}
+		source?.disconnect()
+	}
+	signal?.addEventListener("abort", stop, { once: true })
 	try {
+		// getUserMedia cannot cancel its permission prompt. Drop a late grant.
+		signal?.throwIfAborted()
 		const url = URL.createObjectURL(
 			new Blob([captureWorklet], { type: "text/javascript" }),
 		)
@@ -80,8 +100,9 @@ export const startCapture = async (
 		} finally {
 			URL.revokeObjectURL(url)
 		}
-		const source = context.createMediaStreamSource(stream)
-		const node = new AudioWorkletNode(context, "openbot-capture", {
+		signal?.throwIfAborted()
+		source = context.createMediaStreamSource(stream)
+		node = new AudioWorkletNode(context, "openbot-capture", {
 			numberOfInputs: 1,
 			numberOfOutputs: 1,
 			channelCount: 1,
@@ -94,16 +115,9 @@ export const startCapture = async (
 		// The browser runs only the nodes that lead to the speakers. The worklet
 		// writes no sound to its output, so this plays only silence.
 		node.connect(context.destination)
-		return {
-			stop: () => {
-				node.port.onmessage = null
-				source.disconnect()
-				node.disconnect()
-				for (const track of stream.getTracks()) track.stop()
-			},
-		}
+		return { stop }
 	} catch (error) {
-		for (const track of stream.getTracks()) track.stop()
+		stop()
 		throw error
 	}
 }
@@ -113,6 +127,9 @@ export const startCapture = async (
  * one ends. `stop` ends the sound at once, such as when the person talks.
  */
 export class Player {
+	private readonly context: AudioContext
+	private readonly rate: number
+	private readonly onSpeaking: (speaking: boolean) => void
 	private next = 0
 	private readonly sources = new Set<AudioBufferSourceNode>()
 	/** One odd byte that waits for the next piece. */
@@ -121,10 +138,14 @@ export class Player {
 	private itemStart: number | undefined
 
 	constructor(
-		private readonly context: AudioContext,
-		private readonly rate: number,
-		private readonly onSpeaking: (speaking: boolean) => void,
-	) {}
+		context: AudioContext,
+		rate: number,
+		onSpeaking: (speaking: boolean) => void,
+	) {
+		this.context = context
+		this.rate = rate
+		this.onSpeaking = onSpeaking
+	}
 
 	play(bytes: ArrayBuffer) {
 		let view = new Uint8Array(bytes)

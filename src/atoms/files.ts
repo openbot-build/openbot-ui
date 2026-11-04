@@ -2,6 +2,7 @@ import { FilesApi } from "@openbot-build/client/Api"
 import { Effect, Schema, Stream } from "effect"
 import * as Atom from "effect/reactivity/Atom"
 import { Api, apiRuntime } from "@/lib/api"
+import { fetchResource } from "@/lib/runtime"
 
 /**
  * Uploads one file for a message. It sends the file through OpenBot first. When
@@ -26,12 +27,14 @@ export const uploadFileAtom = apiRuntime.fn(
 						},
 					})
 					yield* Effect.tryPromise({
-						try: () =>
-							fetch(upload.url, {
+						try: (signal) =>
+							fetchResource(upload.url, {
 								method: upload.method,
 								headers: upload.headers,
 								body: file,
-							}).then((response) => {
+								signal,
+							}).then(async (response) => {
+								await response.body?.cancel()
 								if (!response.ok)
 									throw new Error("The storage did not take the file.")
 							}),

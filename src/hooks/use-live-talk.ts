@@ -2,6 +2,8 @@ import { ExecutionsApi, LiveApi } from "@openbot-build/client/Api"
 import { Option, Schema } from "effect"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { type Capture, Player, startCapture } from "@/lib/live-audio"
+import { apiOrigin, createWebSocket, nativeRuntime } from "@/lib/runtime"
+import { watchAppPause } from "@/lib/app-lifecycle"
 
 /** What the page shows about a Live talk. */
 export interface TalkState {
@@ -41,7 +43,7 @@ const decodeMessage = Schema.decodeUnknownOption(
 
 /** The address of the Live WebSocket of a chat, on the origin of the page. */
 const liveUrl = (chatId: string, organization: string | undefined) => {
-	const url = new URL(`/v1/chats/${chatId}/live`, globalThis.location.href)
+	const url = new URL(`/v1/chats/${encodeURIComponent(chatId)}/live`, apiOrigin())
 	url.protocol = url.protocol === "https:" ? "wss:" : "ws:"
 	// A browser cannot send the organization header with a WebSocket.
 	if (organization !== undefined)
@@ -50,6 +52,7 @@ const liveUrl = (chatId: string, organization: string | undefined) => {
 }
 
 interface Session {
+	readonly abort: AbortController
 	readonly socket: WebSocket
 	readonly context: AudioContext
 	capture: Capture | undefined
@@ -90,11 +93,13 @@ export const useLiveTalk = ({
 		const current = session.current
 		session.current = undefined
 		if (current !== undefined) {
+			current.abort.abort()
 			current.capture?.stop()
 			current.player?.stop()
 			current.socket.onclose = null
+			current.socket.onmessage = null
 			current.socket.close()
-			void current.context.close()
+			void current.context.close().catch(() => {})
 		}
 		setState({ ...idle, error })
 	}, [])
@@ -112,6 +117,7 @@ export const useLiveTalk = ({
 				void turnEnd.current()
 				return
 			case "session.ready": {
+				if (current.ready) return
 				if (message.audio.input.encoding !== "pcm16") {
 					close("This Live model does not take sound that a browser can send.")
 					return
@@ -140,6 +146,7 @@ export const useLiveTalk = ({
 						if (!current.muted && current.socket.readyState === WebSocket.OPEN)
 							current.socket.send(chunk)
 					},
+					current.abort.signal,
 				).then(
 					(capture) => {
 						if (session.current === current) current.capture = capture
@@ -200,12 +207,21 @@ export const useLiveTalk = ({
 
 	const start = useCallback(() => {
 		if (session.current !== undefined) return
+		if (document.visibilityState === "hidden") return
 		// The click starts the sound, so the browser lets it play.
-		const context = new AudioContext()
-		void context.resume()
-		const socket = new WebSocket(liveUrl(chatId, organization))
+		let context: AudioContext | undefined
+		let socket: WebSocket
+		try {
+			context = new AudioContext()
+			socket = createWebSocket(liveUrl(chatId, organization))
+		} catch {
+			void context?.close().catch(() => {})
+			setState({ ...idle, error: "Live talk could not start. Check audio access and try again." })
+			return
+		}
 		socket.binaryType = "arraybuffer"
 		const current: Session = {
+			abort: new AbortController(),
 			socket,
 			context,
 			capture: undefined,
@@ -217,6 +233,9 @@ export const useLiveTalk = ({
 		}
 		session.current = current
 		setState({ ...idle, status: "connecting" })
+		void context.resume().catch(() => {
+			if (session.current === current) close("Audio could not start. Try again.")
+		})
 		socket.onmessage = (event: MessageEvent<string | ArrayBuffer>) => {
 			if (session.current !== current) return
 			if (typeof event.data === "string") {
@@ -233,7 +252,7 @@ export const useLiveTalk = ({
 			)
 			void turnEnd.current()
 		}
-	}, [chatId, organization])
+	}, [chatId, organization, close])
 
 	const setMuted = useCallback(
 		(muted: boolean) => {
@@ -247,8 +266,14 @@ export const useLiveTalk = ({
 		[patch],
 	)
 
-	// The talk ends when the page goes away.
-	useEffect(() => () => close(), [close])
+	// A new chat or organization must not inherit the old microphone or socket.
+	useEffect(() => {
+		const stopWatching = watchAppPause(window, close, nativeRuntime())
+		return () => {
+			stopWatching()
+			close()
+		}
+	}, [chatId, organization, close])
 
 	return {
 		state,

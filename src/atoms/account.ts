@@ -1,6 +1,7 @@
 import { Effect } from "effect"
 import * as Atom from "effect/reactivity/Atom"
 import { Api, apiRuntime } from "@/lib/api"
+import { nativeRuntime, returnPath } from "@/lib/runtime"
 
 /** The signed-in account, with its organizations. It fails when nobody signed in. */
 export const accountAtom = apiRuntime.atom(
@@ -16,6 +17,15 @@ export const signInAtom = apiRuntime.fn(
 		readonly email?: string
 		readonly returnTo?: string
 	}) {
+		const native = nativeRuntime()
+		if (native !== undefined) {
+			const returnTo = returnPath(input.returnTo)
+			yield* Effect.tryPromise({
+				try: () => native.signIn({ ...input, returnTo }),
+				catch: (cause) => cause instanceof Error ? cause : new Error("Sign-in failed. Try again."),
+			})
+			return yield* Effect.sync(() => globalThis.location.replace(returnTo))
+		}
 		const client = yield* Api
 		const start = yield* client.api.signIn.signIn({
 			payload: {
@@ -43,13 +53,17 @@ export const developmentSignIn = (returnTo: string) =>
 	})
 
 /** Better Auth serves the sign-out route. It is not in the API contract. */
-export const signOut = () =>
-	fetch("/auth/sign-out", {
+export const signOut = () => {
+	const native = nativeRuntime()
+	if (native !== undefined)
+		return native.signOut().finally(() => globalThis.location.replace("/sign-in"))
+	return fetch("/auth/sign-out", {
 		method: "POST",
 		credentials: "same-origin",
 		headers: { "Content-Type": "application/json" },
 		body: "{}",
 	}).finally(() => globalThis.location.assign("/sign-in"))
+}
 
 /** The initials of a name or an email, for the avatar. */
 export const initials = (

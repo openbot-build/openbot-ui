@@ -2,13 +2,15 @@ import { BrowserCrypto } from "@effect/platform-browser"
 import * as OpenBot from "@openbot-build/client"
 import { Cause, Layer, Predicate } from "effect"
 import * as Atom from "effect/reactivity/Atom"
+import { FetchHttpClient } from "effect/http"
+import { apiOrigin, nativeRuntime, storageKey } from "@/lib/runtime"
 
 /** The key in local storage that keeps the organization the person works in. */
 const organizationKey = "openbot.organization"
 
 const readOrganization = (): string | undefined => {
 	try {
-		return globalThis.localStorage?.getItem(organizationKey) ?? undefined
+		return globalThis.localStorage?.getItem(storageKey(organizationKey)) ?? undefined
 	} catch {
 		return undefined
 	}
@@ -22,7 +24,7 @@ export const organizationAtom = Atom.writable<string | undefined, string>(
 	() => readOrganization(),
 	(ctx, value) => {
 		try {
-			globalThis.localStorage?.setItem(organizationKey, value)
+			globalThis.localStorage?.setItem(storageKey(organizationKey), value)
 		} catch {
 			// Storage can be blocked. The choice then lasts only for this page.
 		}
@@ -39,20 +41,24 @@ export const goToSignIn = () => {
 }
 
 /**
- * The runtime of every API atom. The OpenBot client runs on the same origin and
- * uses the session cookie. When the organization changes, the runtime and the
- * atoms that use it start again.
+ * The runtime of every API atom. Browsers use the same-origin session cookie;
+ * native shells supply an explicit API origin and transport. When the
+ * organization changes, the runtime and the atoms that use it start again.
  */
-export const apiRuntime = Atom.runtime((get) =>
-	Layer.merge(
+export const apiRuntime = Atom.runtime((get) => {
+	const native = nativeRuntime()
+	const client = OpenBot.layer({
+		baseUrl: apiOrigin(),
+		organization: get(organizationAtom),
+		onUnauthorized: goToSignIn,
+	})
+	return Layer.merge(
 		BrowserCrypto.layer,
-		OpenBot.layer({
-			baseUrl: globalThis.location?.origin ?? "",
-			organization: get(organizationAtom),
-			onUnauthorized: goToSignIn,
-		}),
-	),
-)
+		native === undefined ? client : client.pipe(
+			Layer.provide(Layer.succeed(FetchHttpClient.Fetch, native.fetch)),
+		),
+	)
+})
 
 /** The typed client. Use it inside the effects of `apiRuntime` atoms. */
 export const Api = OpenBot.Client

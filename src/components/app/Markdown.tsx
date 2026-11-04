@@ -1,6 +1,7 @@
 import { memo } from "react"
 import ReactMarkdown, { type Components } from "react-markdown"
 import remarkGfm from "remark-gfm"
+import { toast } from "sonner"
 import {
 	CodeBlock,
 	CodeBlockActions,
@@ -12,6 +13,7 @@ import {
 } from "@/components/ui/code-block"
 import { useHighlightedCode } from "@/hooks/use-highlighted-code"
 import { cn } from "@/lib/utils"
+import { externalUrl, nativeRuntime } from "@/lib/runtime"
 
 function FencedCode({
 	language,
@@ -51,7 +53,18 @@ const components: Components = {
 		return <FencedCode language={language ?? "text"} code={text} />
 	},
 	a: ({ href, children }) => (
-		<a href={href} target="_blank" rel="noreferrer noopener">
+		<a href={href} target="_blank" rel="noreferrer noopener" onClick={(event) => {
+			const native = nativeRuntime()
+			if (native === undefined) return
+			event.preventDefault()
+			try {
+				void native.openExternal(externalUrl(href ?? "")).catch(() => {
+					toast.error("This link could not be opened.")
+				})
+			} catch {
+				toast.error("This link is not supported.")
+			}
+		}}>
 			{children}
 		</a>
 	),

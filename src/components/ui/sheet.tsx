@@ -1,14 +1,22 @@
 "use client"
 
 import * as React from "react"
+import { useBackDismiss } from "@/hooks/use-back-dismiss"
 import { Dialog as SheetPrimitive } from "@base-ui/react/dialog"
 import { cn } from "cn"
 
 import { Button } from "@/components/ui/button"
 import { XIcon } from "lucide-react"
 
-function Sheet({ ...props }: SheetPrimitive.Root.Props) {
-	return <SheetPrimitive.Root data-slot="sheet" {...props} />
+function Sheet(props: SheetPrimitive.Root.Props) {
+	const localActions = React.useRef<SheetPrimitive.Root.Actions | null>(null)
+	const actions = props.actionsRef ?? localActions
+	const [open, setOpen] = React.useState(props.defaultOpen ?? false)
+	useBackDismiss(props.open ?? open, actions)
+	return <SheetPrimitive.Root data-slot="sheet" {...props} actionsRef={actions} onOpenChange={(next, details) => {
+		props.onOpenChange?.(next, details)
+		if (!details.isCanceled) setOpen(next)
+	}} />
 }
 
 function SheetTrigger({ ...props }: SheetPrimitive.Trigger.Props) {
@@ -53,7 +61,7 @@ function SheetContent({
 				data-slot="sheet-content"
 				data-side={side}
 				className={cn(
-					"fixed z-50 flex flex-col bg-popover bg-clip-padding text-xs/relaxed text-popover-foreground transition duration-200 ease-in-out data-ending-style:opacity-0 data-starting-style:opacity-0 data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:data-ending-style:translate-y-[2.5rem] data-[side=bottom]:data-starting-style:translate-y-[2.5rem] data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=left]:data-ending-style:translate-x-[-2.5rem] data-[side=left]:data-starting-style:translate-x-[-2.5rem] data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=right]:data-ending-style:translate-x-[2.5rem] data-[side=right]:data-starting-style:translate-x-[2.5rem] data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:data-ending-style:translate-y-[-2.5rem] data-[side=top]:data-starting-style:translate-y-[-2.5rem] data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm",
+					"fixed z-50 flex max-h-(--app-height) flex-col overflow-y-auto bg-popover bg-clip-padding text-xs/relaxed text-popover-foreground transition duration-200 ease-in-out data-ending-style:opacity-0 data-starting-style:opacity-0 data-[side=bottom]:left-(--safe-left) data-[side=bottom]:right-(--safe-right) data-[side=bottom]:bottom-[calc(100%-var(--viewport-top)-var(--viewport-height)+var(--safe-bottom))] data-[side=bottom]:h-auto data-[side=bottom]:data-ending-style:translate-y-[2.5rem] data-[side=bottom]:data-starting-style:translate-y-[2.5rem] data-[side=left]:top-[calc(var(--viewport-top)+var(--safe-top))] data-[side=left]:left-(--safe-left) data-[side=left]:h-(--app-height) data-[side=left]:w-3/4 data-[side=left]:data-ending-style:translate-x-[-2.5rem] data-[side=left]:data-starting-style:translate-x-[-2.5rem] data-[side=right]:top-[calc(var(--viewport-top)+var(--safe-top))] data-[side=right]:right-(--safe-right) data-[side=right]:h-(--app-height) data-[side=right]:w-3/4 data-[side=right]:data-ending-style:translate-x-[2.5rem] data-[side=right]:data-starting-style:translate-x-[2.5rem] data-[side=top]:left-(--safe-left) data-[side=top]:right-(--safe-right) data-[side=top]:top-[calc(var(--viewport-top)+var(--safe-top))] data-[side=top]:h-auto data-[side=top]:data-ending-style:translate-y-[-2.5rem] data-[side=top]:data-starting-style:translate-y-[-2.5rem] data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm",
 					className,
 				)}
 				{...props}

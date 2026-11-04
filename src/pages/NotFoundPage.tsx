@@ -13,7 +13,7 @@ import {
 /** The page for an address that the app does not know. */
 export function NotFoundPage() {
 	return (
-		<Empty className="min-h-svh">
+		<Empty className="min-h-(--app-height)">
 			<EmptyHeader>
 				<EmptyMedia variant="icon">
 					<FileQuestionIcon />
